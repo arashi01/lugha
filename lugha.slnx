@@ -1,0 +1,36 @@
+<Solution>
+
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="ARM64" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+
+  <!-- Core library -->
+  <Folder Name="/lugha/">
+    <Project Path="lugha/Lugha.csproj" />
+  </Folder>
+  <Folder Name="/lugha-analysers/">
+    <Project Path="lugha-analysers/Lugha.Analysers.csproj" />
+  </Folder>
+  <Folder Name="/lugha-generators/">
+    <Project Path="lugha-generators/Lugha.Generators.csproj" />
+  </Folder>
+  <Folder Name="/lugha-tests/">
+    <Project Path="lugha-tests/Lugha.Tests.csproj" />
+  </Folder>
+  <Folder Name="/lugha-analysers-tests/">
+    <Project Path="lugha-analysers-tests/Lugha.Analysers.Tests.csproj" />
+  </Folder>
+
+  <!-- Import tooling (future) -->
+  <Folder Name="/import/" />
+
+  <!-- Framework integrations (future) -->
+  <Folder Name="/integration/" />
+
+  <!-- Documentation -->
+  <Folder Name="/docs/" />
+
+</Solution>

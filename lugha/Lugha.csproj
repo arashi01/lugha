@@ -1,0 +1,51 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Lugha</RootNamespace>
+    <PackageId>Lugha</PackageId>
+    <Description>Typed localisation for .NET — compile-time enforced text contracts.</Description>
+    <PackageTags>localisation;localization;i18n;l10n;cldr;pluralisation</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+
+    <!-- NuGet settings -->
+    <GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+
+    <!-- Include analyser/generator outputs in package -->
+    <TargetsForTfmSpecificContentInPackage>
+      $(TargetsForTfmSpecificContentInPackage);_PackAnalysers
+    </TargetsForTfmSpecificContentInPackage>
+  </PropertyGroup>
+
+  <!-- Build dependency only — not a runtime reference -->
+  <ItemGroup>
+    <ProjectReference Include="../lugha-analysers/Lugha.Analysers.csproj"
+                      ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../lugha-generators/Lugha.Generators.csproj"
+                      ReferenceOutputAssembly="false" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="README.md" Pack="true" PackagePath="\" />
+    <InternalsVisibleTo Include="Lugha.Tests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="all" />
+  </ItemGroup>
+
+  <Target Name="_PackAnalysers">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="../lugha-analysers/bin/$(Configuration)/netstandard2.0/Lugha.Analysers.dll"
+                              PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="../lugha-generators/bin/$(Configuration)/netstandard2.0/Lugha.Generators.dll"
+                              PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
+
+</Project>

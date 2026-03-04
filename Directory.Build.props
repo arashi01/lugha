@@ -1,0 +1,31 @@
+<Project>
+  <PropertyGroup>
+    <LangVersion>latest</LangVersion>
+    <Nullable>enable</Nullable>
+    <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+    <AnalysisLevel>latest-all</AnalysisLevel>
+    <EnableNETAnalyzers>true</EnableNETAnalyzers>
+    <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+
+    <!-- GenerateDocumentationFile is enabled solely for IDE0005 (remove unused usings)
+         to function on build. CS1591 is suppressed because XML doc comments are not
+         required on all public members. -->
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    <NoWarn>$(NoWarn);CS1591</NoWarn>
+
+    <!-- Repository info -->
+    <Copyright>Copyright (c) Ali Rashid</Copyright>
+    <Authors>Ali Rashid</Authors>
+    <RepositoryUrl>https://github.com/arashi01/lugha</RepositoryUrl>
+
+    <!-- MinVer configuration -->
+    <MinVerTagPrefix>v</MinVerTagPrefix>
+    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MinVer: lightweight git-based semantic versioning
+         Version derived from git tags (e.g., v1.0.0 -> 1.0.0) -->
+    <PackageReference Include="MinVer" Version="7.0.0" PrivateAssets="All" />
+  </ItemGroup>
+</Project>

@@ -1,0 +1,36 @@
+# Build results
+[Bb]in/
+[Oo]bj/
+[Oo]ut/
+
+# NuGet
+*.nupkg
+*.snupkg
+**/packages/
+*.nuget.props
+*.nuget.targets
+
+# User-specific files
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# dotfiles
+.*
+!.editorconfig
+!.gitattributes
+!.gitignore
+
+# MSBuild
+*.log
+msbuild.binlog
+
+# Test results
+[Tt]est[Rr]esults/
+coverage/
+*.coverage
+*.coveragexml
+
+# OS files
+Thumbs.db
