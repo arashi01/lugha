@@ -18,7 +18,7 @@
          resolves to the ancient net4x-only 1.0.1. Pinning here forces
          resolution to a version with netstandard2.0/net6.0+ assets,
          eliminating the NU1701 compatibility warning. -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>
