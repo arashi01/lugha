@@ -1,0 +1,137 @@
+name: Integration Build
+
+on:
+  push:
+    branches: [main]
+    tags: ["v*"]
+  pull_request:
+    branches: [main]
+  workflow_dispatch:
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: ${{ !startsWith(github.ref, 'refs/tags/') }}
+
+permissions:
+  contents: read
+
+env:
+  DOTNET_NOLOGO: true
+  DOTNET_CLI_TELEMETRY_OPTOUT: true
+  DOTNET_SKIP_FIRST_TIME_EXPERIENCE: true
+  CONFIGURATION: Release
+
+jobs:
+  build:
+    name: Build and Test
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: tree:0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Restore
+        run: dotnet restore lugha.slnx
+
+      - name: Build
+        run: >-
+          dotnet build lugha.slnx
+          --no-restore
+          --configuration ${{ env.CONFIGURATION }}
+          /p:GeneratePackageOnBuild=false
+
+      - name: Format check
+        run: dotnet format lugha.slnx --verify-no-changes
+
+      - name: Test
+        run: >-
+          dotnet test lugha.slnx
+          --no-build
+          --configuration ${{ env.CONFIGURATION }}
+          --logger "trx;LogFileName=results.trx"
+          --collect "XPlat Code Coverage"
+          --results-directory ./test-results
+
+      - name: Pack (validation only)
+        if: github.event_name == 'push'
+        run: >-
+          dotnet pack lugha.slnx
+          --no-build
+          --configuration ${{ env.CONFIGURATION }}
+          --output ./packages
+
+      - name: Upload packages (validation only)
+        if: github.event_name == 'push'
+        uses: actions/upload-artifact@v7
+        with:
+          name: packages
+          path: ./packages/**/*.*nupkg
+          retention-days: 7
+
+      - name: Upload test results
+        uses: actions/upload-artifact@v7
+        if: ${{ !cancelled() }}
+        with:
+          name: test-results
+          path: ./test-results/**/*.trx
+          retention-days: 7
+
+      - name: Upload coverage information
+        if: ${{ !cancelled() }}
+        uses: actions/upload-artifact@v7
+        with:
+          name: coverage
+          path: ./test-results/**/coverage.cobertura.xml
+          retention-days: 7
+
+  publish:
+    name: Publish Packages
+    needs: [build]
+    if: startsWith(github.ref, 'refs/tags/v')
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+
+    permissions:
+      contents: read
+      packages: write
+      id-token: write
+
+    steps:
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+
+      - name: Download package artefacts
+        uses: actions/download-artifact@v8
+        with:
+          name: packages
+          path: artefacts
+
+      - name: NuGet login (OIDC)
+        uses: NuGet/login@v1
+        id: nuget-login
+        with:
+          user: ${{ secrets.NUGET_USER }}
+
+      - name: Push to NuGet
+        run: >-
+          dotnet nuget push "./artefacts/**/*.nupkg"
+          --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
+          --source https://api.nuget.org/v3/index.json
+          --skip-duplicate
+
+      - name: Push to GitHub Packages
+        run: >-
+          dotnet nuget push "./artefacts/**/*.nupkg"
+          --api-key ${{ secrets.GITHUB_TOKEN }}
+          --source https://nuget.pkg.github.com/arashi01/index.json
+          --skip-duplicate

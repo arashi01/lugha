@@ -21,6 +21,8 @@
 !.editorconfig
 !.gitattributes
 !.gitignore
+!.github/workflows/
+!.github/dependsbot.yml
 
 # MSBuild
 *.log
