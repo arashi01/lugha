@@ -139,6 +139,18 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 | Framework coupling | `ResourceManager` | `IServiceCollection` | None |
 | Hot-path allocation | String per lookup | String per lookup | Zero (`TryFormat` + `TryIsolate`) |
 
+## Getting Started
+
+**Hand-authored locales (recommended starting point):** install `Lugha` alone and follow the [quick start guide](lugha/README.md).
+
+**Existing `.resx` or `.resw` files:** install `Lugha` and `Lugha.Import.Resx`. The source generator converts resource files to typed text scopes at compile time. See [Lugha.Import.Resx](import/lugha-import-resx/README.md).
+
+**Existing Gettext `.po`/`.pot` files:** install `Lugha` and `Lugha.Import.Gettext`. See [Lugha.Import.Gettext](import/lugha-import-gettext/README.md).
+
+**Design-time CLI import:** install the `Lugha.Cli` global tool for one-off file conversion. See [Lugha.Cli](import/lugha-cli/README.md).
+
+**WinUI 3 runtime language switching:** install `Lugha.WinUI` for the reactive locale host and registry. See [Lugha.WinUI](integration/lugha-winui/README.md).
+
 ## Packages
 
 | Package | Description |

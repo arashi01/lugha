@@ -2,6 +2,12 @@
 
 Shared import library that converts external translation files into typed Lugha source code. Format-specific parsers produce a common intermediate representation which a single code emitter transforms into `ITextScope` interfaces and sealed locale classes.
 
+```sh
+dotnet add package Lugha.Import
+```
+
+Most users consume this indirectly via `Lugha.Import.Gettext`, `Lugha.Import.Resx`, or `Lugha.Cli`. Reference it directly only if you are building a custom import tool or a third-party source generator.
+
 ## Architecture
 
 ```

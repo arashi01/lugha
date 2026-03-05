@@ -221,7 +221,7 @@ All rules are verified against [CLDR commit `f7e8edb`](https://github.com/unicod
 
 #### Language Rules Reference
 
-`LanguageRules` in `Lugha.Rules` documents the correct cardinal/ordinal pairing for each supported language tag:
+`LanguageRules` in `Lugha.Common` documents the correct cardinal/ordinal pairing for each supported language tag:
 
 | Language | Cardinal | Ordinal |
 |---|---|---|

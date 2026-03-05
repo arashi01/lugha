@@ -1,6 +1,10 @@
 # Lugha.Common
 
-Shared types for the Lugha localisation ecosystem. Published as an independent NuGet package referenced by import libraries.
+Shared types for the Lugha localisation ecosystem. Used internally by import generators and the CLI tool - most users do not need to reference this package directly.
+
+```sh
+dotnet add package Lugha.Common
+```
 
 ## API
 
