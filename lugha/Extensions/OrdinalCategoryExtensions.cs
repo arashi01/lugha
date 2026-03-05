@@ -11,7 +11,10 @@ public static class OrdinalCategoryExtensions
 {
   extension(OrdinalCategory category)
   {
-    /// <summary>Selects the matching form.</summary>
+    /// <summary>
+    /// Selects the form matching this category from <paramref name="forms"/>.
+    /// Unset categories resolve to <see cref="OrdinalForms.Other"/>.
+    /// </summary>
     public string Select(OrdinalForms forms) => category switch
     {
       OrdinalCategory.Zero => forms.Zero,

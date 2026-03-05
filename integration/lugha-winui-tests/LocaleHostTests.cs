@@ -86,9 +86,9 @@ public sealed class LocaleHostTests
       var tcs = new TaskCompletionSource();
       dispatcher.TryEnqueue(() =>
           {
-          host.SetLocale(replacement);
-          tcs.SetResult();
-        });
+            host.SetLocale(replacement);
+            tcs.SetResult();
+          });
 
       await tcs.Task;
       host.Current.Should().BeSameAs(replacement);
@@ -105,18 +105,18 @@ public sealed class LocaleHostTests
 
       host.PropertyChanged += (_, e) =>
           {
-          if (e.PropertyName is not null)
-          {
-            firedProperties.Add(e.PropertyName);
-          }
-        };
+            if (e.PropertyName is not null)
+            {
+              firedProperties.Add(e.PropertyName);
+            }
+          };
 
       var tcs = new TaskCompletionSource();
       dispatcher.TryEnqueue(() =>
           {
-          host.SetLocale(new TestArSaLocale());
-          tcs.SetResult();
-        });
+            host.SetLocale(new TestArSaLocale());
+            tcs.SetResult();
+          });
 
       await tcs.Task;
       firedProperties.Should().ContainSingle()
@@ -138,9 +138,9 @@ public sealed class LocaleHostTests
       var tcs = new TaskCompletionSource();
       dispatcher.TryEnqueue(() =>
           {
-          host.SetLocale(locale);
-          tcs.SetResult();
-        });
+            host.SetLocale(locale);
+            tcs.SetResult();
+          });
 
       await tcs.Task;
       fired.Should().BeFalse();

@@ -11,7 +11,10 @@ public static class PluralCategoryExtensions
 {
   extension(PluralCategory category)
   {
-    /// <summary>Selects the matching form.</summary>
+    /// <summary>
+    /// Selects the form matching this category from <paramref name="forms"/>.
+    /// Unset categories resolve to <see cref="PluralForms.Other"/>.
+    /// </summary>
     public string Select(PluralForms forms) => category switch
     {
       PluralCategory.Zero => forms.Zero,

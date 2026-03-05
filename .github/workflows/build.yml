@@ -22,9 +22,9 @@ env:
   CONFIGURATION: Release
 
 jobs:
-  build:
-    name: Build and Test
-    runs-on: ubuntu-latest
+  analyse:
+    name: Static Analysis
+    runs-on: windows-2025
     timeout-minutes: 30
 
     steps:
@@ -37,6 +37,30 @@ jobs:
         uses: actions/setup-dotnet@v5
         with:
           dotnet-version: "10.0.x"
+          cache: true
+
+      - name: Restore
+        run: dotnet restore lugha.slnx
+
+      - name: Format check
+        run: dotnet format lugha.slnx --no-restore --verify-no-changes
+
+  build:
+    name: Build and Test
+    runs-on: windows-2025
+    timeout-minutes: 30
+
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+          filter: tree:0
+
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v5
+        with:
+          dotnet-version: "10.0.x"
+          cache: true
 
       - name: Restore
         run: dotnet restore lugha.slnx
@@ -48,9 +72,6 @@ jobs:
           --configuration ${{ env.CONFIGURATION }}
           /p:GeneratePackageOnBuild=false
 
-      - name: Format check
-        run: dotnet format lugha.slnx --verify-no-changes
-
       - name: Test
         run: >-
           dotnet test lugha.slnx
@@ -60,15 +81,14 @@ jobs:
           --collect "XPlat Code Coverage"
           --results-directory ./test-results
 
-      - name: Pack (validation only)
-        if: github.event_name == 'push'
+      - name: Pack
         run: >-
           dotnet pack lugha.slnx
           --no-build
           --configuration ${{ env.CONFIGURATION }}
           --output ./packages
 
-      - name: Upload packages (validation only)
+      - name: Upload packages
         if: github.event_name == 'push'
         uses: actions/upload-artifact@v7
         with:
@@ -94,13 +114,13 @@ jobs:
 
   publish:
     name: Publish Packages
-    needs: [build]
+    needs: [analyse, build]
     if: startsWith(github.ref, 'refs/tags/v')
     runs-on: ubuntu-latest
     timeout-minutes: 60
 
     permissions:
-      contents: read
+      contents: write
       packages: write
       id-token: write
 
@@ -110,11 +130,11 @@ jobs:
         with:
           dotnet-version: "10.0.x"
 
-      - name: Download package artefacts
+      - name: Download packages
         uses: actions/download-artifact@v8
         with:
           name: packages
-          path: artefacts
+          path: packages
 
       - name: NuGet login (OIDC)
         uses: NuGet/login@v1
@@ -124,14 +144,25 @@ jobs:
 
       - name: Push to NuGet
         run: >-
-          dotnet nuget push "./artefacts/**/*.nupkg"
+          dotnet nuget push "./packages/**/*.nupkg"
           --api-key ${{ steps.nuget-login.outputs.NUGET_API_KEY }}
           --source https://api.nuget.org/v3/index.json
           --skip-duplicate
 
       - name: Push to GitHub Packages
         run: >-
-          dotnet nuget push "./artefacts/**/*.nupkg"
+          dotnet nuget push "./packages/**/*.nupkg"
           --api-key ${{ secrets.GITHUB_TOKEN }}
           --source https://nuget.pkg.github.com/arashi01/index.json
           --skip-duplicate
+
+      - name: Create GitHub Release
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: >-
+          gh release create "${{ github.ref_name }}"
+          packages/*.nupkg
+          --repo "${{ github.repository }}"
+          --title "${{ github.ref_name }}"
+          --generate-notes
+          ${{ contains(github.ref_name, '-') && '--prerelease' || '' }}

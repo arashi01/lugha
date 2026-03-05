@@ -31,7 +31,9 @@ public readonly record struct OrdinalForms
   /// <summary>Falls back to <see cref="Other"/>.</summary>
   public string Many { get => field ?? Other; init; }
 
-  // Resolved-value equality - see PluralForms.
+  /// <summary>
+  /// Compares resolved (post-fallback) values rather than nullable backing fields.
+  /// </summary>
   public bool Equals(OrdinalForms other) =>
       Other == other.Other &&
       Zero == other.Zero &&
@@ -40,6 +42,9 @@ public readonly record struct OrdinalForms
       Few == other.Few &&
       Many == other.Many;
 
+  /// <summary>
+  /// Returns a hash code based on resolved (post-fallback) values.
+  /// </summary>
   public override int GetHashCode() =>
       HashCode.Combine(Other, Zero, One, Two, Few, Many);
 }

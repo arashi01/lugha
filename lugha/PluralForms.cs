@@ -40,8 +40,9 @@ public readonly record struct PluralForms
   /// <summary>Large-quantity. Falls back to <see cref="Other"/>.</summary>
   public string Many { get => field ?? Other; init; }
 
-  // Resolved-value equality - overrides record-generated field equality.
-  // Backing fields are nullable but resolved values are not.
+  /// <summary>
+  /// Compares resolved (post-fallback) values rather than nullable backing fields.
+  /// </summary>
   public bool Equals(PluralForms other) =>
       Other == other.Other &&
       Zero == other.Zero &&
@@ -50,6 +51,9 @@ public readonly record struct PluralForms
       Few == other.Few &&
       Many == other.Many;
 
+  /// <summary>
+  /// Returns a hash code based on resolved (post-fallback) values.
+  /// </summary>
   public override int GetHashCode() =>
       HashCode.Combine(Other, Zero, One, Two, Few, Many);
 }
