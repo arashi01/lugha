@@ -1,8 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.IO;
 using Microsoft.CodeAnalysis;
@@ -51,7 +49,7 @@ public sealed class LocaleCompletenessTests
                 public System.Globalization.CultureInfo Culture =>
                     System.Globalization.CultureInfo.GetCultureInfo("en-GB");
 
-                // Missing Connection property — should trigger LGH002.
+                // Missing Connection property - should trigger LGH002.
             }
             """;
 

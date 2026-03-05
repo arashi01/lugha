@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="WelshCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 249–256.
+/// CLDR source: plurals.xml lines 249-256.
 /// Welsh uses all six categories at exact values:
 /// zero=0, one=1, two=2, few=3, many=6, other=everything else.
 /// </summary>

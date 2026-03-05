@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="LatinEuropeanCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml — one/many/other for es, it, pt-PT, ca, lld, scn, vec.
+/// CLDR source: plurals.xml - one/many/other for es, it, pt-PT, ca, lld, scn, vec.
 /// The <c>many</c> category applies to non-zero exact multiples of 1,000,000
 /// for integer inputs (e = 0, v = 0).
 /// </summary>

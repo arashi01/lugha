@@ -11,6 +11,9 @@
   <Folder Name="/lugha/">
     <Project Path="lugha/Lugha.csproj" />
   </Folder>
+  <Folder Name="/lugha-common/">
+    <Project Path="lugha-common/Lugha.Common.csproj" />
+  </Folder>
   <Folder Name="/lugha-analysers/">
     <Project Path="lugha-analysers/Lugha.Analysers.csproj" />
   </Folder>
@@ -24,8 +27,15 @@
     <Project Path="lugha-analysers-tests/Lugha.Analysers.Tests.csproj" />
   </Folder>
 
-  <!-- Import tooling (future) -->
-  <Folder Name="/import/" />
+  <!-- Import tooling -->
+  <Folder Name="/import/">
+    <Project Path="import/lugha-import/Lugha.Import.csproj" />
+    <Project Path="import/lugha-import-gettext/Lugha.Import.Gettext.csproj" />
+    <Project Path="import/lugha-import-resx/Lugha.Import.Resx.csproj" />
+  </Folder>
+  <Folder Name="/import-tests/">
+    <Project Path="import/lugha-import-tests/Lugha.Import.Tests.csproj" />
+  </Folder>
 
   <!-- Framework integrations (future) -->
   <Folder Name="/integration/" />

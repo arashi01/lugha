@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
@@ -13,9 +12,9 @@ namespace Lugha.Generators;
 /// <summary>
 /// Emits a <c>partial class LocaleManifest</c> with:
 /// <list type="bullet">
-///   <item><c>Scopes</c> — all <c>ITextScope</c> interface names.</item>
-///   <item><c>Locales</c> — all concrete <c>ILocale</c> class names.</item>
-///   <item><c>MemberCount&lt;TScope&gt;()</c> — member count per scope.</item>
+///   <item><c>Scopes</c> - all <c>ITextScope</c> interface names.</item>
+///   <item><c>Locales</c> - all concrete <c>ILocale</c> class names.</item>
+///   <item><c>MemberCount&lt;TScope&gt;()</c> - member count per scope.</item>
 /// </list>
 /// </summary>
 [Generator(LanguageNames.CSharp)]

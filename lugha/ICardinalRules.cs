@@ -6,7 +6,7 @@ namespace Lugha;
 /// <summary>
 /// Type class for CLDR cardinal plural rule resolution.
 /// Implementations are zero-size structs. The JIT monomorphises generic
-/// call sites — no virtual dispatch, no allocation.
+/// call sites - no virtual dispatch, no allocation.
 /// </summary>
 /// <remarks>
 /// Cardinal rules for integer inputs. The full CLDR rule system uses

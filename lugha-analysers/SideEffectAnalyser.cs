@@ -10,8 +10,8 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH008</b> — Warning: text scope implementation body contains known
-/// side-effecting calls. This is a heuristic analyser — it detects common
+/// <b>LGH008</b> - Warning: text scope implementation body contains known
+/// side-effecting calls. This is a heuristic analyser - it detects common
 /// side-effect patterns but is not sound.
 /// </summary>
 /// <remarks>
@@ -32,7 +32,7 @@ public sealed class SideEffectAnalyser : DiagnosticAnalyzer
       category: "Lugha.Design",
       defaultSeverity: DiagnosticSeverity.Warning,
       isEnabledByDefault: true,
-      description: "Text scope implementation bodies should be pure (no side effects). This is a heuristic check — it detects common side-effect patterns but is not sound.");
+      description: "Text scope implementation bodies should be pure (no side effects). This is a heuristic check - it detects common side-effect patterns but is not sound.");
 
   // Known side-effecting type prefixes for member access detection.
   private static readonly ImmutableArray<string> SideEffectingTypes =

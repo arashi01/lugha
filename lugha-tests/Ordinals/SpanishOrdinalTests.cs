@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="SpanishOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 26–29.
+/// CLDR source: ordinals.xml lines 26-29.
 /// Rule: one = n%10 ∈ {1,3} ∧ n%100 ≠ 11; other = everything else.
 /// </summary>
 public sealed class SpanishOrdinalTests

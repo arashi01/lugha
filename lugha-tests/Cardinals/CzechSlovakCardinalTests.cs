@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="CzechSlovakCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 162–167.
+/// CLDR source: plurals.xml lines 162-167.
 /// Categories: one/few/other (many unreachable for int).
 /// </summary>
 public sealed class CzechSlovakCardinalTests

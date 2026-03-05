@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="FrenchCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 118–127 — <c>i = 0,1</c>.
+/// CLDR source: plurals.xml lines 118-127 - <c>i = 0,1</c>.
 /// Applies to: fr, pt (Brazilian).
 /// </summary>
 public sealed class FrenchCardinalTests

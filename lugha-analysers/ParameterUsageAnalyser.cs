@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Linq;
 using Microsoft.CodeAnalysis;
@@ -11,7 +10,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH004</b> — Warning: a parameterised text scope method implementation
+/// <b>LGH004</b> - Warning: a parameterised text scope method implementation
 /// must use all its parameters in the return expression.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="RomanianCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 105–109.
+/// CLDR source: plurals.xml lines 105-109.
 /// For int inputs (v=0): one → 1; few → 0 or n%100 in 1..19 (n≠1); other → 20+.
 /// </summary>
 public sealed class RomanianCardinalTests

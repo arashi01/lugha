@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -9,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH005</b> — Info (opt-in): a text scope interface has no
+/// <b>LGH005</b> - Info (opt-in): a text scope interface has no
 /// implementations in the assembly.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="ItalianOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 68–71.
+/// CLDR source: ordinals.xml lines 68-71.
 /// Rule: many = n ∈ {8, 11, 80, 800}; other = everything else.
 /// </summary>
 public sealed class ItalianOrdinalTests

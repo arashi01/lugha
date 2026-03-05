@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="UkrainianOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 53–56.
+/// CLDR source: ordinals.xml lines 53-56.
 /// Rule: few = n%10 = 3 ∧ n%100 ≠ 13; other = everything else.
 /// </summary>
 public sealed class UkrainianOrdinalTests

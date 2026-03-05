@@ -7,8 +7,8 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="OtherOnlyCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 16–18.
-/// Applies to: zh, ja, ko — no plural distinctions whatsoever.
+/// CLDR source: plurals.xml lines 16-18.
+/// Applies to: zh, ja, ko - no plural distinctions whatsoever.
 /// </summary>
 public sealed class OtherOnlyCardinalTests
 {

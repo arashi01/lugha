@@ -20,8 +20,15 @@
 
     <!-- MinVer configuration -->
     <MinVerTagPrefix>v</MinVerTagPrefix>
-    <MinVerMinimumMajorMinor>1.0</MinVerMinimumMajorMinor>
+    <MinVerMinimumMajorMinor>0.1</MinVerMinimumMajorMinor>
   </PropertyGroup>
+
+  <!-- Global usings for universally-needed namespaces.
+       ImplicitUsings is NOT used — explicit global usings give full control. -->
+  <ItemGroup>
+    <Using Include="System" />
+    <Using Include="System.Collections.Generic" />
+  </ItemGroup>
 
   <ItemGroup>
     <!-- MinVer: lightweight git-based semantic versioning

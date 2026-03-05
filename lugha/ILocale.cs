@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 using System.Globalization;
 
 namespace Lugha;
@@ -21,7 +20,7 @@ public interface ILocale
 {
   /// <summary>
   /// Culture associated with this locale.
-  /// Explicit parameter — never reads ambient state.
+  /// Explicit parameter - never reads ambient state.
   /// Must be a read-only <see cref="CultureInfo"/> instance.
   /// </summary>
   public CultureInfo Culture { get; }
@@ -50,7 +49,7 @@ public interface ILocale<TCardinal, TOrdinal> : ILocale
     where TCardinal : ICardinalRules<TCardinal>
     where TOrdinal : IOrdinalRules<TOrdinal>
 {
-#pragma warning disable CA1033 // Default interface method — explicit implementation is the intended pattern
+#pragma warning disable CA1033 // Default interface method - explicit implementation is the intended pattern
   PluralCategory ILocale.Cardinal(int count)
   {
     ArgumentOutOfRangeException.ThrowIfNegative(count);

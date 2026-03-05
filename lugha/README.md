@@ -1,6 +1,6 @@
 # Lugha
 
-**لغة** · Arabic and Swahili for _language_: lugha
+**لغة** - Arabic and Swahili for _language_: lugha
 
 Typed localisation for .NET 10 - compile-time enforced text contracts with CLDR pluralisation and bidirectional text support.
 
@@ -285,6 +285,37 @@ The package includes Roslyn analysers that enforce text scope correctness at com
 | LGH006 | Info | `PluralForms` sets only Other + One for a language needing more categories (opt-in). |
 | LGH007 | Info | Text scope member defined but unreferenced (opt-in). |
 | LGH008 | Warning | Text scope implementation body contains side-effecting calls (heuristic). |
+
+### Enabling opt-in diagnostics
+
+LGH005, LGH006, and LGH007 are disabled by default. Enable them via `.editorconfig`:
+
+```ini
+[*.cs]
+dotnet_diagnostic.LGH005.severity = suggestion
+dotnet_diagnostic.LGH006.severity = suggestion
+dotnet_diagnostic.LGH007.severity = suggestion
+```
+
+## Source Generators
+
+The package includes incremental source generators that run during compilation.
+
+### Locale Manifest
+
+When at least one `ITextScope` interface or `ILocale` class exists, the generator emits a `partial class LocaleManifest` with compile-time metadata:
+
+```csharp
+// Auto-generated
+public static partial class LocaleManifest
+{
+    public static ReadOnlySpan<string> Scopes => ["IConnectionText", "INavigationText"];
+    public static ReadOnlySpan<string> Locales => ["EnGbLocale", "ArSaLocale"];
+    public static int MemberCount<TScope>() where TScope : Lugha.ITextScope => ...;
+}
+```
+
+This enables test infrastructure and tooling to enumerate scopes and locales without reflection.
 
 ## Applied Example
 

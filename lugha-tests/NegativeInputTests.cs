@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 using System.Globalization;
 using Lugha.Rules.Cardinals;
 using Lugha.Rules.Ordinals;
@@ -19,7 +18,7 @@ public sealed class NegativeInputTests
   private static readonly CultureInfo Culture = CultureInfo.InvariantCulture;
   private static readonly TestEnGbLocale Locale = new();
 
-  // ---- Plural — generic path --------------------------------------
+  // ---- Plural - generic path --------------------------------------
 
   [Fact]
   public void Plural_Select_Generic_ThrowsForNegative() =>
@@ -39,7 +38,7 @@ public sealed class NegativeInputTests
         () => Plural.TryFormat<OneOtherCardinal>(-1, ItemForms, Culture, buffer, out _));
   }
 
-  // ---- Plural — locale path ---------------------------------------
+  // ---- Plural - locale path ---------------------------------------
 
   [Fact]
   public void Plural_Select_Locale_ThrowsForNegative() =>
@@ -59,7 +58,7 @@ public sealed class NegativeInputTests
         () => Plural.TryFormat(-1, ItemForms, Locale, buffer, out _));
   }
 
-  // ---- Ordinal — generic path -------------------------------------
+  // ---- Ordinal - generic path -------------------------------------
 
   [Fact]
   public void Ordinal_Select_Generic_ThrowsForNegative() =>
@@ -79,7 +78,7 @@ public sealed class NegativeInputTests
         () => Lugha.Ordinal.TryFormat<EnglishOrdinal>(-1, Suffixes, Culture, buffer, out _));
   }
 
-  // ---- Ordinal — locale path --------------------------------------
+  // ---- Ordinal - locale path --------------------------------------
 
   [Fact]
   public void Ordinal_Select_Locale_ThrowsForNegative() =>

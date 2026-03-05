@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="ArabicCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 241–248.
+/// CLDR source: plurals.xml lines 241-248.
 /// Uses all six categories: zero/one/two/few/many/other.
 /// </summary>
 public sealed class ArabicCardinalTests

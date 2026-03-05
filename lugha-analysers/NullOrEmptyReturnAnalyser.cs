@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH003</b> — Error: a text scope implementation must never return
+/// <b>LGH003</b> - Error: a text scope implementation must never return
 /// <see langword="null"/>, <c>null!</c>, <see langword="default"/>,
 /// <c>default!</c>, <see cref="string.Empty"/>, or <c>""</c>.
 /// </summary>
@@ -140,7 +140,7 @@ public sealed class NullOrEmptyReturnAnalyser : DiagnosticAnalyzer
   {
     ISymbol? containingSymbol = context.ContainingSymbol;
 
-    // For property getters, the containing symbol is the accessor — walk up to the property.
+    // For property getters, the containing symbol is the accessor - walk up to the property.
     if (containingSymbol is IMethodSymbol { AssociatedSymbol: IPropertySymbol property })
     {
       containingSymbol = property;

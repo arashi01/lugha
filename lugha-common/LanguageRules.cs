@@ -1,7 +1,7 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-namespace Lugha.Rules;
+namespace Lugha.Common;
 
 /// <summary>
 /// Maps language tags to their correct CLDR cardinal/ordinal rule pair.
@@ -92,11 +92,11 @@ public static class LanguageRules
 /// Cardinal and ordinal rule type names for a language.
 /// </summary>
 /// <param name="Cardinal">
-/// Unqualified type name of the <see cref="ICardinalRules{TSelf}"/> implementation
+/// Unqualified type name of the cardinal rules implementation
 /// (e.g. <c>"OneOtherCardinal"</c>).
 /// </param>
 /// <param name="Ordinal">
-/// Unqualified type name of the <see cref="IOrdinalRules{TSelf}"/> implementation
+/// Unqualified type name of the ordinal rules implementation
 /// (e.g. <c>"EnglishOrdinal"</c>).
 /// </param>
 public readonly record struct RulePair(string Cardinal, string Ordinal);

@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 
 namespace Lugha;
 
@@ -12,7 +11,7 @@ namespace Lugha;
 /// </summary>
 /// <remarks>
 /// <para>Uses C# 14 <c>field</c> keyword. Value equality compares resolved values
-/// (post-fallback), not nullable backing fields — two instances with identical
+/// (post-fallback), not nullable backing fields - two instances with identical
 /// resolved text are equal regardless of which slots were explicitly set.
 /// The auto-generated <c>ToString</c> calls property getters and therefore
 /// also prints resolved values.</para>
@@ -41,7 +40,7 @@ public readonly record struct PluralForms
   /// <summary>Large-quantity. Falls back to <see cref="Other"/>.</summary>
   public string Many { get => field ?? Other; init; }
 
-  // Resolved-value equality — overrides record-generated field equality.
+  // Resolved-value equality - overrides record-generated field equality.
   // Backing fields are nullable but resolved values are not.
   public bool Equals(PluralForms other) =>
       Other == other.Other &&

@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 using System.Globalization;
 
 namespace Lugha;
@@ -12,11 +11,11 @@ namespace Lugha;
 /// <remarks>
 /// <para><b>Choosing an API:</b></para>
 /// <list type="bullet">
-///   <item><b>Select</b> — returns only the resolved form string. Use this
+///   <item><b>Select</b> - returns only the resolved form string. Use this
 ///     as the general-purpose API for all languages. Compose the count and
 ///     form in your own interpolated string to control word order, spacing,
 ///     and grammatical structure.</item>
-///   <item><b>Format</b> — convenience that produces <c>"{count:N0} {form}"</c>.
+///   <item><b>Format</b> - convenience that produces <c>"{count:N0} {form}"</c>.
 ///     Suitable for languages where the count precedes the noun with a space
 ///     (e.g. English <c>"5 items"</c>). Not appropriate for languages with
 ///     different word order, no space, or case inflection around the number.</item>

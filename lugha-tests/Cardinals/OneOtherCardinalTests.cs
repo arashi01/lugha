@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="OneOtherCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml — <c>i = 1 and v = 0</c>.
+/// CLDR source: plurals.xml - <c>i = 1 and v = 0</c>.
 /// Applies to: en, de, nl, sv, nb, da.
 /// </summary>
 public sealed class OneOtherCardinalTests

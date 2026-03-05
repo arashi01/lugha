@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 
 namespace Lugha;
 
@@ -32,7 +31,7 @@ public readonly record struct OrdinalForms
   /// <summary>Falls back to <see cref="Other"/>.</summary>
   public string Many { get => field ?? Other; init; }
 
-  // Resolved-value equality — see PluralForms.
+  // Resolved-value equality - see PluralForms.
   public bool Equals(OrdinalForms other) =>
       Other == other.Other &&
       Zero == other.Zero &&

@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="OneOnlyOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 30–33.
+/// CLDR source: ordinals.xml lines 30-33.
 /// Rule: one = n = 1; other = everything else.
 /// Applies to: fr, ro, ms, vi.
 /// </summary>

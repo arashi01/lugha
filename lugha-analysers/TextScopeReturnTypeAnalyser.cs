@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH001</b> — Error: every member of an <c>ITextScope</c>-derived interface
+/// <b>LGH001</b> - Error: every member of an <c>ITextScope</c>-derived interface
 /// must return <see langword="string"/>.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]

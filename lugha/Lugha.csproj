@@ -30,6 +30,11 @@
                       ReferenceOutputAssembly="false" />
   </ItemGroup>
 
+  <!-- Shared library — flows as a standard dependency into lib/net10.0/ -->
+  <ItemGroup>
+    <ProjectReference Include="../lugha-common/Lugha.Common.csproj" />
+  </ItemGroup>
+
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
     <InternalsVisibleTo Include="Lugha.Tests" />

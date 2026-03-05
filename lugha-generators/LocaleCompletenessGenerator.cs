@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 namespace Lugha.Generators;
 
 /// <summary>
-/// <b>LGH002</b> — Error: every concrete locale class implementing <c>ILocale</c>
+/// <b>LGH002</b> - Error: every concrete locale class implementing <c>ILocale</c>
 /// must provide all <c>ITextScope</c> properties declared on its composite locale
 /// interface.
 /// </summary>

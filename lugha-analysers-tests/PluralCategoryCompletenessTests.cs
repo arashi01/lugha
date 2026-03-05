@@ -10,11 +10,11 @@ namespace Lugha.Analysers.Tests;
 
 /// <summary>
 /// Tests for <see cref="PluralCategoryCompletenessAnalyser"/> (LGH006).
-/// Opt-in diagnostic — must be explicitly enabled via editor config.
+/// Opt-in diagnostic - must be explicitly enabled via editor config.
 /// </summary>
 public sealed class PluralCategoryCompletenessTests
 {
-  // Simplified PluralForms stub — avoids init/required which need modern reference assemblies.
+  // Simplified PluralForms stub - avoids init/required which need modern reference assemblies.
   private const string Stubs = """
         using System.Globalization;
 

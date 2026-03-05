@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="EnglishOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 106–111.
+/// CLDR source: ordinals.xml lines 106-111.
 /// Rule: one = n%10=1 ∧ n%100≠11; two = n%10=2 ∧ n%100≠12;
 ///   few = n%10=3 ∧ n%100≠13; other = everything else.
 /// </summary>

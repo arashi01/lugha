@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -11,7 +10,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH006</b> — Info (opt-in): a <c>PluralForms</c> initialiser
+/// <b>LGH006</b> - Info (opt-in): a <c>PluralForms</c> initialiser
 /// for a locale requiring more than two CLDR categories only sets <c>Other</c> and <c>One</c>.
 /// </summary>
 /// <remarks>
@@ -114,12 +113,12 @@ public sealed class PluralCategoryCompletenessAnalyser : DiagnosticAnalyzer
 
     if (hasTwo || hasFew || hasMany || hasZero)
     {
-      return; // Developer has set additional categories — no diagnostic.
+      return; // Developer has set additional categories - no diagnostic.
     }
 
     if (!setProperties.Contains("Other"))
     {
-      return; // Incomplete for different reasons — not our concern.
+      return; // Incomplete for different reasons - not our concern.
     }
 
     // Try to detect the language from the containing class's Culture property.
@@ -278,7 +277,7 @@ public sealed class PluralCategoryCompletenessAnalyser : DiagnosticAnalyzer
   /// </summary>
   private static string NormaliseTag(string tag)
   {
-    // pt-PT is a special case — keep as-is.
+    // pt-PT is a special case - keep as-is.
     if (tag == "pt-PT")
     {
       return tag;
@@ -332,6 +331,6 @@ public sealed class PluralCategoryCompletenessAnalyser : DiagnosticAnalyzer
     "ja" => 1,
     "ko" => 1,
 
-    _ => 0, // Unknown — do not report.
+    _ => 0, // Unknown - do not report.
   };
 }

@@ -1,7 +1,6 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System.Collections.Generic;
 using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -9,7 +8,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH007</b> — Info (opt-in): a text scope member defined but never
+/// <b>LGH007</b> - Info (opt-in): a text scope member defined but never
 /// referenced (via any implementation) in the assembly.
 /// </summary>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
@@ -166,7 +165,7 @@ public sealed class UnreferencedMemberAnalyser : DiagnosticAnalyzer
           continue;
         }
 
-        // Skip property/event accessor methods — track properties instead.
+        // Skip property/event accessor methods - track properties instead.
         if (member is IMethodSymbol { MethodKind: not MethodKind.Ordinary })
         {
           continue;

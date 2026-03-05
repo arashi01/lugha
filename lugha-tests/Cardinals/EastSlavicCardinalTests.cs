@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="EastSlavicCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 186–191.
+/// CLDR source: plurals.xml lines 186-191.
 /// Applies to: ru, uk.
 /// Categories: one/few/many/other (other unreachable for int).
 /// </summary>

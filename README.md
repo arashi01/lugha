@@ -1,6 +1,6 @@
 # Lugha
 
-**لغة** · Arabic and Swahili for _language_: lugha
+**لغة** - Arabic and Swahili for _language_: lugha
 
 Typed localisation for .NET 10 - compile-time enforced text contracts with CLDR pluralisation and bidirectional text support.
 
@@ -144,6 +144,12 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 | Package | Description |
 |--|--|
 | [`Lugha`](lugha/) | Core runtime library, Roslyn analysers, and source generators. [API documentation](lugha/README.md). |
+| [`Lugha.Analysers`](lugha-analysers/) | Roslyn diagnostic analysers (LGH001, LGH003-LGH008). Packed into `Lugha`. [Documentation](lugha-analysers/README.md). |
+| [`Lugha.Generators`](lugha-generators/) | Incremental source generators (LGH002, LocaleManifest). Packed into `Lugha`. [Documentation](lugha-generators/README.md). |
+| [`Lugha.Common`](lugha-common/) | Shared types (language-to-CLDR-rule mapping) for the import ecosystem. [Documentation](lugha-common/README.md). |
+| [`Lugha.Import`](import/lugha-import/) | Shared import library - parsers and code emitter for converting translation files to typed source. [Documentation](import/lugha-import/README.md). |
+| [`Lugha.Import.Gettext`](import/lugha-import-gettext/) | Source generator for GNU Gettext `.po`/`.pot` files. [Documentation](import/lugha-import-gettext/README.md). |
+| [`Lugha.Import.Resx`](import/lugha-import-resx/) | Source generator for `.resx`/`.resw` resource files. [Documentation](import/lugha-import-resx/README.md). |
 
 ## Design Properties
 

@@ -10,7 +10,7 @@ namespace Lugha.Analysers.Tests;
 
 /// <summary>
 /// Tests for <see cref="UnreferencedMemberAnalyser"/> (LGH007).
-/// Opt-in diagnostic — must be explicitly enabled via editor config.
+/// Opt-in diagnostic - must be explicitly enabled via editor config.
 /// </summary>
 public sealed class UnreferencedMemberTests
 {

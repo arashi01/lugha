@@ -1,14 +1,13 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 using System.Globalization;
 using Lugha.Rules.Cardinals;
 
 namespace Lugha.Tests;
 
 /// <summary>
-/// Tests <see cref="Plural"/> static functions — both generic and locale paths.
+/// Tests <see cref="Plural"/> static functions - both generic and locale paths.
 /// Validates format composition, culture-specific number formatting, and
 /// <c>TryFormat</c> span behaviour.
 /// </summary>

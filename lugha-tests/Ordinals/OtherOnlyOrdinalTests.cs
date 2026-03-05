@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="OtherOnlyOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 16–18.
+/// CLDR source: ordinals.xml lines 16-18.
 /// Applies to: ar, cs, da, de, fa, fi, he, hr, id, ja, km, ko, nl, pl,
 ///   pt, ru, sk, sl, sr, sw, th, tr, ur, zh, and many more.
 /// </summary>

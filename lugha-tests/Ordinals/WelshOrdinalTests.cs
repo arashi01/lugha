@@ -7,7 +7,7 @@ namespace Lugha.Tests.Ordinals;
 
 /// <summary>
 /// Tests <see cref="WelshOrdinal"/> against CLDR @integer sample vectors.
-/// CLDR source: ordinals.xml lines 183–190.
+/// CLDR source: ordinals.xml lines 183-190.
 /// Welsh ordinals use all six categories at exact values:
 /// zero=0,7,8,9; one=1; two=2; few=3,4; many=5,6; other=10+.
 /// </summary>

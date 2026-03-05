@@ -1,14 +1,13 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 using System.Globalization;
 using Lugha.Rules.Ordinals;
 
 namespace Lugha.Tests;
 
 /// <summary>
-/// Tests <see cref="Ordinal"/> static functions — both generic and locale paths.
+/// Tests <see cref="Ordinal"/> static functions - both generic and locale paths.
 /// Validates ordinal format composition (no space between count and suffix),
 /// culture-specific number formatting, and <c>TryFormat</c> span behaviour.
 /// </summary>

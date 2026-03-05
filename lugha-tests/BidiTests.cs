@@ -1,13 +1,12 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
-using System;
 
 namespace Lugha.Tests;
 
 public sealed class BidiTests
 {
-  // ── Constants ──────────────────────────────────────────────────────
+  // -- Constants ------------------------------------------------------------------
 
   [Fact]
   public void Lri_is_U2066() =>
@@ -33,7 +32,7 @@ public sealed class BidiTests
   public void Rlm_is_U200F() =>
     Bidi.Rlm.Should().Be('\u200F');
 
-  // ── String methods ─────────────────────────────────────────────────
+  // - String methods ------------------------------------------------------
 
   [Fact]
   public void IsolateLtr_wraps_value_with_Lri_and_Pdi()
@@ -120,7 +119,7 @@ public sealed class BidiTests
   [Fact]
   public void IsolateLtr_preserves_surrogate_pairs()
   {
-    // U+1F600 (grinning face) — two UTF-16 code units
+    // U+1F600 (grinning face) - two UTF-16 code units
     string emoji = "\U0001F600";
     emoji.Length.Should().Be(2, "surrogate pair is two chars");
 
@@ -163,7 +162,7 @@ public sealed class BidiTests
     result[1..^1].Should().Be(zwj);
   }
 
-  // ── Span methods — success path ────────────────────────────────────
+  // - Span methods - success path ----------------------------------------
 
   [Fact]
   public void TryIsolateLtr_writes_to_exact_size_buffer()
@@ -216,7 +215,7 @@ public sealed class BidiTests
     buffer[1].Should().Be(Bidi.Pdi);
   }
 
-  // ── Span methods — insufficient buffer ─────────────────────────────
+  // - Span methods - insufficient buffer ---------------------------------
 
   [Fact]
   public void TryIsolateLtr_returns_false_when_buffer_too_small()
@@ -272,7 +271,7 @@ public sealed class BidiTests
     written.Should().Be(0);
   }
 
-  // ── Span methods — oversized buffer ────────────────────────────────
+  // - Span methods - oversized buffer ------------------------------------
 
   [Fact]
   public void TryIsolateLtr_in_oversized_buffer_writes_only_required_chars()
@@ -286,7 +285,7 @@ public sealed class BidiTests
     buffer[4].Should().Be('\0', "chars beyond written count are untouched");
   }
 
-  // ── Span methods — Unicode edge cases ──────────────────────────────
+  // - Span methods - Unicode edge cases ----------------------------------
 
   [Fact]
   public void TryIsolate_preserves_surrogate_pairs_in_span()
@@ -302,7 +301,7 @@ public sealed class BidiTests
     new string(buffer[1..^1]).Should().Be(emoji);
   }
 
-  // ── String / span output equivalence ──────────────────────────────
+  // - String / span output equivalence ------------------------------------
 
   /// <summary>
   /// The string and span paths must produce identical character sequences

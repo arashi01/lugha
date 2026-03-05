@@ -55,7 +55,7 @@ public sealed class PluralFormsTests
   [Fact]
   public void Equality_ComparesResolvedValues_NotBackingFields()
   {
-    // Only Other set explicitly — all slots resolve to "x"
+    // Only Other set explicitly - all slots resolve to "x"
     PluralForms implicitFallback = new() { Other = "x" };
 
     // All slots explicitly set to the same value

@@ -7,7 +7,7 @@ namespace Lugha.Tests.Cardinals;
 
 /// <summary>
 /// Tests <see cref="HebrewCardinal"/> against CLDR @integer sample vectors.
-/// CLDR source: plurals.xml lines 87–91.
+/// CLDR source: plurals.xml lines 87-91.
 /// Hebrew uses one/two/other (many was removed in CLDR 42).
 /// </summary>
 public sealed class HebrewCardinalTests
