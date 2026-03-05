@@ -10,6 +10,17 @@ namespace Lugha;
 /// Pure functions for cardinal plural category resolution and formatting.
 /// </summary>
 /// <remarks>
+/// <para><b>Choosing an API:</b></para>
+/// <list type="bullet">
+///   <item><b>Select</b> — returns only the resolved form string. Use this
+///     as the general-purpose API for all languages. Compose the count and
+///     form in your own interpolated string to control word order, spacing,
+///     and grammatical structure.</item>
+///   <item><b>Format</b> — convenience that produces <c>"{count:N0} {form}"</c>.
+///     Suitable for languages where the count precedes the noun with a space
+///     (e.g. English <c>"5 items"</c>). Not appropriate for languages with
+///     different word order, no space, or case inflection around the number.</item>
+/// </list>
 /// <para><b>Choosing a path:</b></para>
 /// <list type="bullet">
 ///   <item><b>Generic path</b> (<c>Select&lt;TRules&gt;</c>, <c>Format&lt;TRules&gt;</c>):
@@ -67,7 +78,7 @@ public static class Plural
       where TRules : ICardinalRules<TRules>
   {
     ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString(culture)} {TRules.Cardinal(count).Select(forms)}";
+    return $"{count.ToString("N0", culture)} {TRules.Cardinal(count).Select(forms)}";
   }
 
   /// <summary>
@@ -97,7 +108,7 @@ public static class Plural
     ArgumentOutOfRangeException.ThrowIfNegative(count);
     return destination.TryWrite(
         culture,
-        $"{count} {TRules.Cardinal(count).Select(forms)}",
+        $"{count:N0} {TRules.Cardinal(count).Select(forms)}",
         out written);
   }
 
@@ -134,7 +145,7 @@ public static class Plural
   public static string Format(int count, PluralForms forms, ILocale locale)
   {
     ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString(locale.Culture)} {locale.Cardinal(count).Select(forms)}";
+    return $"{count.ToString("N0", locale.Culture)} {locale.Cardinal(count).Select(forms)}";
   }
 
   /// <summary>
@@ -163,7 +174,7 @@ public static class Plural
     ArgumentOutOfRangeException.ThrowIfNegative(count);
     return destination.TryWrite(
         locale.Culture,
-        $"{count} {locale.Cardinal(count).Select(forms)}",
+        $"{count:N0} {locale.Cardinal(count).Select(forms)}",
         out written);
   }
 }

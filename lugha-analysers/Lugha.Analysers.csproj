@@ -4,6 +4,7 @@
     <TargetFramework>netstandard2.0</TargetFramework>
     <RootNamespace>Lugha.Analysers</RootNamespace>
     <IsRoslynComponent>true</IsRoslynComponent>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     <!-- Not directly referenced by consumers — packed into Lugha NuGet -->
     <IsPackable>false</IsPackable>
   </PropertyGroup>

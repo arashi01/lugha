@@ -26,14 +26,14 @@ public readonly record struct PluralForms
   /// <summary>Required. General/default form.</summary>
   public required string Other { get; init; }
 
+  /// <summary>Zero-quantity. Falls back to <see cref="Other"/>.</summary>
+  public string Zero { get => field ?? Other; init; }
+
   /// <summary>Singular. Falls back to <see cref="Other"/>.</summary>
   public string One { get => field ?? Other; init; }
 
   /// <summary>Dual. Falls back to <see cref="Other"/>.</summary>
   public string Two { get => field ?? Other; init; }
-
-  /// <summary>Zero-quantity. Falls back to <see cref="Other"/>.</summary>
-  public string Zero { get => field ?? Other; init; }
 
   /// <summary>Paucal. Falls back to <see cref="Other"/>.</summary>
   public string Few { get => field ?? Other; init; }
@@ -45,12 +45,12 @@ public readonly record struct PluralForms
   // Backing fields are nullable but resolved values are not.
   public bool Equals(PluralForms other) =>
       Other == other.Other &&
+      Zero == other.Zero &&
       One == other.One &&
       Two == other.Two &&
-      Zero == other.Zero &&
       Few == other.Few &&
       Many == other.Many;
 
   public override int GetHashCode() =>
-      HashCode.Combine(Other, One, Two, Zero, Few, Many);
+      HashCode.Combine(Other, Zero, One, Two, Few, Many);
 }

@@ -3,7 +3,7 @@
 
 using System;
 using System.Globalization;
-using Lugha.Rules.Cardinal;
+using Lugha.Rules.Cardinals;
 
 namespace Lugha.Tests;
 
@@ -68,19 +68,15 @@ public sealed class PluralTests
   }
 
   /// <summary>
-  /// Verifies that the culture parameter flows to <c>count.ToString(culture)</c>.
-  /// For integers under the default "G" format, group separators are not
-  /// included — the culture parameter's visible effect surfaces with
-  /// decimal operands (post-v1.0) and through <c>TryWrite</c>'s
-  /// interpolated string handler.
+  /// Verifies that the culture parameter flows to number formatting.
+  /// German uses period as thousands separator.
   /// </summary>
   [Fact]
   public void Format_Generic_PassesCultureToNumberFormatting()
   {
     string result = Plural.Format<OneOtherCardinal>(1000, ItemForms, DeDe);
 
-    // Default int format: no group separators regardless of culture
-    result.Should().Be("1000 items");
+    result.Should().Be("1.000 items");
   }
 
   // ---- Generic path: TryFormat ------------------------------------
@@ -137,7 +133,7 @@ public sealed class PluralTests
   {
     string result = Plural.Format(1000, ItemForms, DeLocale);
 
-    result.Should().Be("1000 items");
+    result.Should().Be("1.000 items");
   }
 
   // ---- Locale path: TryFormat -------------------------------------
@@ -165,6 +161,15 @@ public sealed class PluralTests
   }
 
   // ---- LocaleExtensions convenience: PluralFormat -----------------
+
+  [Fact]
+  public void PluralSelect_Extension_MatchesSelect()
+  {
+    string expected = Plural.Select(3, ItemForms, EnGbLocale);
+    string result = EnGbLocale.PluralSelect(3, ItemForms);
+
+    result.Should().Be(expected);
+  }
 
   [Fact]
   public void PluralFormat_Extension_MatchesFormat()

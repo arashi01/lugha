@@ -10,17 +10,21 @@ namespace Lugha;
 /// Pure functions for ordinal category resolution and formatting.
 /// </summary>
 /// <remarks>
-/// <para>Ordinal formatting concatenates count and suffix <b>without</b> a
-/// separating space (e.g. <c>"1st"</c>, <c>"2nd"</c>), unlike cardinal
-/// formatting which inserts a space (<c>"1 item"</c>).</para>
+/// <para><b>Choosing an API:</b></para>
+/// <list type="bullet">
+///   <item><b>Select</b> — returns only the resolved suffix string. Use this
+///     as the general-purpose API for all languages. Compose the count and
+///     suffix in your own interpolated string to control composition.</item>
+///   <item><b>Format</b> — convenience that produces <c>"{count:N0}{suffix}"</c>
+///     (no space). Suitable for languages where the count directly precedes
+///     the suffix (e.g. English <c>"1st"</c>). Not appropriate for all languages.</item>
+/// </list>
 /// <para>
 /// All methods guard against negative <c>count</c> via
 /// <see cref="ArgumentOutOfRangeException.ThrowIfNegative"/>.
 /// </para>
 /// </remarks>
-#pragma warning disable CA1724 // Type name Ordinal matches namespace Lugha.Rules.Ordinal — both are spec-mandated; no consumer ambiguity arises because the namespace is never imported directly
 public static class Ordinal
-#pragma warning restore CA1724
 {
   // ---- Generic path -----------------------------------------------
 
@@ -65,7 +69,7 @@ public static class Ordinal
       where TRules : IOrdinalRules<TRules>
   {
     ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString(culture)}{TRules.Ordinal(count).Select(forms)}";
+    return $"{count.ToString("N0", culture)}{TRules.Ordinal(count).Select(forms)}";
   }
 
   /// <summary>
@@ -96,7 +100,7 @@ public static class Ordinal
     ArgumentOutOfRangeException.ThrowIfNegative(count);
     return destination.TryWrite(
         culture,
-        $"{count}{TRules.Ordinal(count).Select(forms)}",
+        $"{count:N0}{TRules.Ordinal(count).Select(forms)}",
         out written);
   }
 
@@ -134,7 +138,7 @@ public static class Ordinal
   public static string Format(int count, OrdinalForms forms, ILocale locale)
   {
     ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString(locale.Culture)}{locale.Ordinal(count).Select(forms)}";
+    return $"{count.ToString("N0", locale.Culture)}{locale.Ordinal(count).Select(forms)}";
   }
 
   /// <summary>
@@ -164,7 +168,7 @@ public static class Ordinal
     ArgumentOutOfRangeException.ThrowIfNegative(count);
     return destination.TryWrite(
         locale.Culture,
-        $"{count}{locale.Ordinal(count).Select(forms)}",
+        $"{count:N0}{locale.Ordinal(count).Select(forms)}",
         out written);
   }
 }

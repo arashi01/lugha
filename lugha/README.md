@@ -55,8 +55,8 @@ public interface IAppLocale : ILocale
 
 ```csharp
 using System.Globalization;
-using Lugha.Rules.Cardinal;
-using Lugha.Rules.Ordinal;
+using Lugha.Rules.Cardinals;
+using Lugha.Rules.Ordinals;
 
 public sealed class EnGbLocale
     : IAppLocale, ILocale<OneOtherCardinal, EnglishOrdinal>
@@ -293,8 +293,8 @@ A complete multi-locale example demonstrating English, Arabic, and Ukrainian - i
 ```csharp
 using System.Globalization;
 using Lugha;
-using Lugha.Rules.Cardinal;
-using Lugha.Rules.Ordinal;
+using Lugha.Rules.Cardinals;
+using Lugha.Rules.Ordinals;
 
 // ---- Contracts ----
 

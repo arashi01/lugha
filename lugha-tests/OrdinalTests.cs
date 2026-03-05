@@ -3,7 +3,7 @@
 
 using System;
 using System.Globalization;
-using Lugha.Rules.Ordinal;
+using Lugha.Rules.Ordinals;
 
 namespace Lugha.Tests;
 
@@ -57,17 +57,15 @@ public sealed class OrdinalTests
   }
 
   /// <summary>
-  /// Verifies that the culture parameter flows through.
-  /// See <see cref="PluralTests.Format_Generic_PassesCultureToNumberFormatting"/>
-  /// for rationale on integer formatting behaviour.
+  /// Verifies that the culture parameter flows through to number formatting.
+  /// German uses period as thousands separator.
   /// </summary>
   [Fact]
   public void Format_Generic_PassesCultureToNumberFormatting()
   {
     string result = Lugha.Ordinal.Format<EnglishOrdinal>(1001, EnglishSuffixes, DeDe);
 
-    // No space, no group separators under default int format
-    result.Should().Be("1001st");
+    result.Should().Be("1.001st");
   }
 
   // ---- Generic path: TryFormat ------------------------------------
@@ -117,7 +115,7 @@ public sealed class OrdinalTests
   {
     string result = Lugha.Ordinal.Format(1001, EnglishSuffixes, DeLocale);
 
-    result.Should().Be("1001th");
+    result.Should().Be("1.001th");
     result.Should().NotContain(" ");
   }
 
@@ -145,7 +143,16 @@ public sealed class OrdinalTests
     written.Should().Be(0);
   }
 
-  // ---- LocaleExtensions convenience: OrdinalFormat ----------------
+  // ---- LocaleExtensions convenience ---------------------------------
+
+  [Fact]
+  public void OrdinalSelect_Extension_MatchesSelect()
+  {
+    string expected = Lugha.Ordinal.Select(21, EnglishSuffixes, EnGbLocale);
+    string result = EnGbLocale.OrdinalSelect(21, EnglishSuffixes);
+
+    result.Should().Be(expected);
+  }
 
   [Fact]
   public void OrdinalFormat_Extension_MatchesFormat()

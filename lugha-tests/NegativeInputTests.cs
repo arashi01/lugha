@@ -3,8 +3,8 @@
 
 using System;
 using System.Globalization;
-using Lugha.Rules.Cardinal;
-using Lugha.Rules.Ordinal;
+using Lugha.Rules.Cardinals;
+using Lugha.Rules.Ordinals;
 
 namespace Lugha.Tests;
 

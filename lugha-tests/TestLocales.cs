@@ -2,8 +2,8 @@
 // See LICENSE in the project root for licence information.
 
 using System.Globalization;
-using Lugha.Rules.Cardinal;
-using Lugha.Rules.Ordinal;
+using Lugha.Rules.Cardinals;
+using Lugha.Rules.Ordinals;
 
 namespace Lugha.Tests;
 
