@@ -1,9 +1,13 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net10.0</TargetFramework>
-    <RootNamespace>Lugha.Import.Tests</RootNamespace>
-    <IsTestProject>true</IsTestProject>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <RootNamespace>Lugha.WinUI.Tests</RootNamespace>
+
+    <UseWinUI>true</UseWinUI>
+    <WindowsPackageType>None</WindowsPackageType>
+    <EnableCoreMrtTooling>false</EnableCoreMrtTooling>
+    <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
 
   <ItemGroup>
@@ -12,15 +16,17 @@
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageReference Include="FluentAssertions" Version="8.8.0" />
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.*" />
   </ItemGroup>
 
   <ItemGroup>
     <Using Include="Xunit" />
     <Using Include="FluentAssertions" />
+    <Using Include="System.Threading.Tasks" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="../lugha-import/Lugha.Import.csproj" />
+    <ProjectReference Include="../lugha-winui/Lugha.WinUI.csproj" />
   </ItemGroup>
 
 </Project>

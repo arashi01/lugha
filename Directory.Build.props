@@ -24,7 +24,7 @@
   </PropertyGroup>
 
   <!-- Global usings for universally-needed namespaces.
-       ImplicitUsings is NOT used — explicit global usings give full control. -->
+       ImplicitUsings is NOT used - explicit global usings give full control. -->
   <ItemGroup>
     <Using Include="System" />
     <Using Include="System.Collections.Generic" />

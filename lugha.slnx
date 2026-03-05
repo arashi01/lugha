@@ -32,13 +32,19 @@
     <Project Path="import/lugha-import/Lugha.Import.csproj" />
     <Project Path="import/lugha-import-gettext/Lugha.Import.Gettext.csproj" />
     <Project Path="import/lugha-import-resx/Lugha.Import.Resx.csproj" />
+    <Project Path="import/lugha-cli/Lugha.Cli.csproj" />
   </Folder>
   <Folder Name="/import-tests/">
     <Project Path="import/lugha-import-tests/Lugha.Import.Tests.csproj" />
   </Folder>
 
-  <!-- Framework integrations (future) -->
-  <Folder Name="/integration/" />
+  <!-- Framework integrations -->
+  <Folder Name="/integration/">
+    <Project Path="integration/lugha-winui/Lugha.WinUI.csproj" />
+  </Folder>
+  <Folder Name="/integration-tests/">
+    <Project Path="integration/lugha-winui-tests/Lugha.WinUI.Tests.csproj" />
+  </Folder>
 
   <!-- Documentation -->
   <Folder Name="/docs/" />

@@ -150,6 +150,8 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 | [`Lugha.Import`](import/lugha-import/) | Shared import library - parsers and code emitter for converting translation files to typed source. [Documentation](import/lugha-import/README.md). |
 | [`Lugha.Import.Gettext`](import/lugha-import-gettext/) | Source generator for GNU Gettext `.po`/`.pot` files. [Documentation](import/lugha-import-gettext/README.md). |
 | [`Lugha.Import.Resx`](import/lugha-import-resx/) | Source generator for `.resx`/`.resw` resource files. [Documentation](import/lugha-import-resx/README.md). |
+| [`Lugha.Cli`](import/lugha-cli/) | .NET global tool for design-time translation import. [Documentation](import/lugha-cli/README.md). |
+| [`Lugha.WinUI`](integration/lugha-winui/) | WinUI 3 integration - reactive locale host and registry. [Documentation](integration/lugha-winui/README.md). |
 
 ## Design Properties
 

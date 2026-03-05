@@ -5,17 +5,36 @@
     <RootNamespace>Lugha.Import.Gettext</RootNamespace>
     <IsRoslynComponent>true</IsRoslynComponent>
     <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    <!-- Not directly referenced by consumers — packed into the NuGet package -->
-    <IsPackable>false</IsPackable>
+
+    <!-- NuGet packaging -->
+    <IsPackable>true</IsPackable>
+    <PackageId>Lugha.Import.Gettext</PackageId>
+    <Description>Gettext (.po/.pot) source generator for Lugha typed localisation.</Description>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <NoPackageAnalysis>true</NoPackageAnalysis>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+    <TargetsForTfmSpecificContentInPackage>
+      $(TargetsForTfmSpecificContentInPackage);_PackGenerator
+    </TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.12.0" PrivateAssets="all" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" PrivateAssets="all" />
     <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
   </ItemGroup>
 
+  <!-- Compile reference to Lugha.Import - flows as NuGet dependency when packed.
+       PrivateAssets excludes analyzers from the default so Lugha.Import's
+       analyzers/dotnet/cs/ DLLs are loaded by the Roslyn host for the consumer. -->
   <ItemGroup>
-    <ProjectReference Include="../lugha-import/Lugha.Import.csproj" />
+    <ProjectReference Include="../lugha-import/Lugha.Import.csproj" PrivateAssets="contentfiles;build" />
   </ItemGroup>
+
+  <Target Name="_PackGenerator">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)Lugha.Import.Gettext.dll"
+                              PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
 
 </Project>

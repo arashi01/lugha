@@ -1,0 +1,27 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <RootNamespace>Lugha.Cli</RootNamespace>
+    <PackageId>Lugha.Cli</PackageId>
+    <Description>CLI tool for the Lugha localisation ecosystem - imports external translation sources into typed ITextScope implementations.</Description>
+    <PackageTags>localisation;localization;i18n;l10n;cli;import;gettext;resx</PackageTags>
+    <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
+
+    <!-- Global tool packaging -->
+    <PackAsTool>true</PackAsTool>
+    <ToolCommandName>lugha</ToolCommandName>
+    <IsPackable>true</IsPackable>
+    <IncludeSymbols>true</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PublishRepositoryUrl>true</PublishRepositoryUrl>
+    <EmbedUntrackedSources>true</EmbedUntrackedSources>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../lugha-import/Lugha.Import.csproj" />
+    <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="all" />
+  </ItemGroup>
+
+</Project>

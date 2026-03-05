@@ -1,0 +1,3 @@
+[*]
+# CA2007: xUnit test methods must not use ConfigureAwait (xUnit1030).
+dotnet_diagnostic.CA2007.severity = none

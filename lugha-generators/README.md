@@ -41,7 +41,7 @@ All generators implement `IIncrementalGenerator` for optimal IDE performance.
 
 ## Build
 
-Targets `netstandard2.0` with `Microsoft.CodeAnalysis.CSharp` 4.12.0 and `PolySharp` 1.15.0 for C# 10+ polyfills.
+Targets `netstandard2.0` with `Microsoft.CodeAnalysis.CSharp` 5.0.0 and `PolySharp` 1.15.0 for C# 10+ polyfills.
 
 ```
 dotnet build lugha-generators

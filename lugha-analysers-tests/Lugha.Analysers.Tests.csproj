@@ -7,7 +7,7 @@
 
   <ItemGroup>
     <PackageReference Include="coverlet.collector" Version="8.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.0.1" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="18.3.0" />
     <PackageReference Include="xunit" Version="2.9.3" />
     <PackageReference Include="xunit.runner.visualstudio" Version="3.1.5" />
     <PackageReference Include="FluentAssertions" Version="8.8.0" />
@@ -18,7 +18,7 @@
          resolves to the ancient net4x-only 1.0.1. Pinning here forces
          resolution to a version with netstandard2.0/net6.0+ assets,
          eliminating the NU1701 compatibility warning. -->
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.12.0" />
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="5.0.0" />
   </ItemGroup>
 
   <ItemGroup>

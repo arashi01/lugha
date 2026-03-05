@@ -22,12 +22,12 @@ trim_trailing_whitespace = false
 ###############################
 [*.cs]
 
-# File header — copyright / licence notice (IDE0073)
+# File header - copyright / licence notice (IDE0073)
 file_header_template = Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.\nSee LICENSE in the project root for licence information.
 
 #### Language Rules ####
 
-# 'this.' qualification — do not qualify (IDE0003/IDE0009)
+# 'this.' qualification - do not qualify (IDE0003/IDE0009)
 dotnet_style_qualification_for_field = false:warning
 dotnet_style_qualification_for_property = false:warning
 dotnet_style_qualification_for_method = false:warning
@@ -37,13 +37,13 @@ dotnet_style_qualification_for_event = false:warning
 dotnet_style_predefined_type_for_locals_parameters_members = true:warning
 dotnet_style_predefined_type_for_member_access = true:warning
 
-# Accessibility modifiers — always required, explicit private (IDE0040)
+# Accessibility modifiers - always required, explicit private (IDE0040)
 dotnet_style_require_accessibility_modifiers = always:warning
 
 # Modifier ordering (IDE0036)
 csharp_preferred_modifier_order = public, private, protected, internal, file, static, extern, new, virtual, abstract, sealed, override, readonly, unsafe, required, volatile, async:warning
 
-# Expression-level preferences — warning for ceremony reduction
+# Expression-level preferences - warning for ceremony reduction
 dotnet_style_object_initializer = true:warning
 dotnet_style_collection_initializer = true:warning
 dotnet_style_explicit_tuple_names = true:warning
@@ -57,12 +57,12 @@ dotnet_style_prefer_simplified_interpolation = true:warning
 dotnet_style_prefer_simplified_boolean_expressions = true:warning
 dotnet_style_prefer_collection_expression = true:warning
 
-# Null-checking preferences — modern patterns only
+# Null-checking preferences - modern patterns only
 dotnet_style_coalesce_expression = true:warning
 dotnet_style_null_propagation = true:warning
 dotnet_style_prefer_is_null_check_over_reference_equality_method = true:warning
 
-# var preferences — explicit types for non-obvious, var when apparent
+# var preferences - explicit types for non-obvious, var when apparent
 csharp_style_var_for_built_in_types = false:warning
 csharp_style_var_when_type_is_apparent = true:warning
 csharp_style_var_elsewhere = false:warning
@@ -77,7 +77,7 @@ csharp_style_expression_bodied_local_functions = when_on_single_line:suggestion
 csharp_style_expression_bodied_constructors = false:suggestion
 csharp_style_expression_bodied_operators = when_on_single_line:suggestion
 
-# Pattern matching — always over legacy casts
+# Pattern matching - always over legacy casts
 csharp_style_pattern_matching_over_is_with_cast_check = true:warning
 csharp_style_pattern_matching_over_as_with_null_check = true:warning
 csharp_style_prefer_switch_expression = true:warning
@@ -111,7 +111,7 @@ csharp_style_deconstructed_variable_declaration = true:suggestion
 csharp_using_directive_placement = outside_namespace:warning
 dotnet_sort_system_directives_first = true
 
-# Namespace declarations (IDE0160/IDE0161) — file-scoped always
+# Namespace declarations (IDE0160/IDE0161) - file-scoped always
 csharp_style_namespace_declarations = file_scoped:warning
 
 # Prefer primary constructors (IDE0290)
@@ -126,10 +126,10 @@ dotnet_remove_unnecessary_suppression_exclusions = none
 # Simple using statement (IDE0063)
 csharp_prefer_simple_using_statement = true:warning
 
-# Braces — required on all control flow (IDE0011)
+# Braces - required on all control flow (IDE0011)
 csharp_prefer_braces = true:warning
 
-#### IDE Rules — Modern Feature Enforcement ####
+#### IDE Rules - Modern Feature Enforcement ####
 
 # IDE0005: Remove unnecessary using
 dotnet_diagnostic.IDE0005.severity = warning
@@ -183,7 +183,7 @@ dotnet_diagnostic.CA1036.severity = warning
 dotnet_diagnostic.CA1051.severity = warning
 
 # CA1062: Validate arguments of public methods
-# Suppressed — nullable reference types handle this at compile time.
+# Suppressed - nullable reference types handle this at compile time.
 dotnet_diagnostic.CA1062.severity = none
 
 # CA1067: Override Equals when implementing IEquatable<T>
@@ -197,7 +197,7 @@ dotnet_diagnostic.CA1068.severity = warning
 # CA2211: Non-constant fields should not be visible
 dotnet_diagnostic.CA2211.severity = warning
 
-# CA2225: Operator overloads have named alternates — suppress
+# CA2225: Operator overloads have named alternates - suppress
 # Records generate operators; named alternates are unnecessary ceremony.
 dotnet_diagnostic.CA2225.severity = none
 
@@ -212,7 +212,7 @@ dotnet_diagnostic.CA1822.severity = warning
 # CA1826: Use property instead of Linq Enumerable method
 dotnet_diagnostic.CA1826.severity = warning
 
-# CA1827–CA1829: Count/Any optimisations
+# CA1827-CA1829: Count/Any optimisations
 dotnet_diagnostic.CA1827.severity = warning
 dotnet_diagnostic.CA1828.severity = warning
 dotnet_diagnostic.CA1829.severity = warning
@@ -262,7 +262,7 @@ dotnet_diagnostic.CA2012.severity = warning
 dotnet_diagnostic.CA2016.severity = warning
 
 #### Globalisation Rules ####
-# Critical for a localisation library — no accidental culture-sensitive operations.
+# Critical for a localisation library - no accidental culture-sensitive operations.
 
 # CA1304: Specify CultureInfo
 dotnet_diagnostic.CA1304.severity = warning
@@ -346,7 +346,7 @@ dotnet_naming_symbols.type_parameter.applicable_accessibilities = *
 dotnet_naming_style.begins_with_t.required_prefix = T
 dotnet_naming_style.begins_with_t.capitalization = pascal_case
 
-# Constants — PascalCase
+# Constants - PascalCase
 dotnet_naming_rule.constants_should_be_pascal_case.severity = warning
 dotnet_naming_rule.constants_should_be_pascal_case.symbols = constants
 dotnet_naming_rule.constants_should_be_pascal_case.style = pascal_case_style
@@ -354,14 +354,14 @@ dotnet_naming_symbols.constants.applicable_kinds = field, local
 dotnet_naming_symbols.constants.required_modifiers = const
 dotnet_naming_style.pascal_case_style.capitalization = pascal_case
 
-# Static readonly fields — PascalCase
+# Static readonly fields - PascalCase
 dotnet_naming_rule.static_readonly_should_be_pascal_case.severity = warning
 dotnet_naming_rule.static_readonly_should_be_pascal_case.symbols = static_readonly
 dotnet_naming_rule.static_readonly_should_be_pascal_case.style = pascal_case_style
 dotnet_naming_symbols.static_readonly.applicable_kinds = field
 dotnet_naming_symbols.static_readonly.required_modifiers = static, readonly
 
-# Private/internal fields — _camelCase
+# Private/internal fields - _camelCase
 dotnet_naming_rule.private_fields_should_be_underscore_camel.severity = warning
 dotnet_naming_rule.private_fields_should_be_underscore_camel.symbols = private_fields
 dotnet_naming_rule.private_fields_should_be_underscore_camel.style = underscore_camel
@@ -370,14 +370,14 @@ dotnet_naming_symbols.private_fields.applicable_accessibilities = private, inter
 dotnet_naming_style.underscore_camel.required_prefix = _
 dotnet_naming_style.underscore_camel.capitalization = camel_case
 
-# Local variables and parameters — camelCase
+# Local variables and parameters - camelCase
 dotnet_naming_rule.locals_should_be_camel_case.severity = warning
 dotnet_naming_rule.locals_should_be_camel_case.symbols = locals_and_parameters
 dotnet_naming_rule.locals_should_be_camel_case.style = camel_case_style
 dotnet_naming_symbols.locals_and_parameters.applicable_kinds = parameter, local
 dotnet_naming_style.camel_case_style.capitalization = camel_case
 
-# All other public/protected members — PascalCase
+# All other public/protected members - PascalCase
 dotnet_naming_rule.public_members_should_be_pascal_case.severity = warning
 dotnet_naming_rule.public_members_should_be_pascal_case.symbols = public_members
 dotnet_naming_rule.public_members_should_be_pascal_case.style = pascal_case_style
@@ -403,7 +403,7 @@ indent_size = 2
 end_of_line = lf
 
 ###############################
-# CLDR rule structs (zero-size type tags — never compared for equality)
+# CLDR rule structs (zero-size type tags - never compared for equality)
 ###############################
 [lugha/Rules/**/*.cs]
 dotnet_diagnostic.CA1815.severity = none

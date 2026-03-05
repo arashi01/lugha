@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <RootNamespace>Lugha</RootNamespace>
     <PackageId>Lugha</PackageId>
-    <Description>Typed localisation for .NET — compile-time enforced text contracts.</Description>
+    <Description>Typed localisation for .NET - compile-time enforced text contracts.</Description>
     <PackageTags>localisation;localization;i18n;l10n;cldr;pluralisation</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
     <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,17 +22,12 @@
     </TargetsForTfmSpecificContentInPackage>
   </PropertyGroup>
 
-  <!-- Build dependency only — not a runtime reference -->
+  <!-- Build dependency only - not a runtime reference -->
   <ItemGroup>
     <ProjectReference Include="../lugha-analysers/Lugha.Analysers.csproj"
                       ReferenceOutputAssembly="false" />
     <ProjectReference Include="../lugha-generators/Lugha.Generators.csproj"
                       ReferenceOutputAssembly="false" />
-  </ItemGroup>
-
-  <!-- Shared library — flows as a standard dependency into lib/net10.0/ -->
-  <ItemGroup>
-    <ProjectReference Include="../lugha-common/Lugha.Common.csproj" />
   </ItemGroup>
 
   <ItemGroup>

@@ -1,6 +1,6 @@
 # Lugha.Import.Resx
 
-Roslyn incremental source generator that converts `.resx` and `.resw` resource files into typed Lugha text scopes at compile time. Not published independently - consumed as a project reference or packed into a host NuGet package.
+Roslyn incremental source generator that converts `.resx` and `.resw` resource files into typed Lugha text scopes at compile time. Published as an independent NuGet package with NuGet dependencies on `Lugha.Import` and `Lugha.Common`.
 
 ## How it works
 
@@ -11,7 +11,11 @@ The generator filters `AdditionalFiles` for `.resx` and `.resw` extensions and e
 
 Language tags are extracted from the filename convention `Name.lang.resx` and validated as two-or-more-letter codes starting with alphabetic characters.
 
-All parsing is delegated to `ResxParser` and code emission to `CodeEmitter` from the `Lugha.Import` library.
+All parsing is delegated to `ResxParser` and code emission to `CodeEmitter` from the `Lugha.Import` library. The emitter resolves CLDR rule types via `LanguageRules.Resolve()` from `Lugha.Common`.
+
+## NuGet package layout
+
+The package places only `Lugha.Import.Resx.dll` in `analyzers/dotnet/cs/`. Runtime dependencies (`Lugha.Import`, `Lugha.Common`) flow as NuGet package references so the Roslyn compiler host resolves them transitively.
 
 ## MSBuild properties
 
@@ -33,7 +37,7 @@ Add `.resx`/`.resw` files as `AdditionalFiles` in the consuming project:
 
 ## Build
 
-Targets `netstandard2.0` with `Microsoft.CodeAnalysis.CSharp` 4.12.0. Implements `IIncrementalGenerator` for optimal IDE performance.
+Targets `netstandard2.0` with `Microsoft.CodeAnalysis.CSharp` 5.0.0. Implements `IIncrementalGenerator` for optimal IDE performance.
 
 ```
 dotnet build import/lugha-import-resx

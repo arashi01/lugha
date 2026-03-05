@@ -5,11 +5,17 @@
     <RootNamespace>Lugha.Common</RootNamespace>
     <PackageId>Lugha.Common</PackageId>
     <Description>Shared types for the Lugha localisation ecosystem.</Description>
+    <IsPackable>true</IsPackable>
     <PackageTags>localisation;localization;i18n;cldr</PackageTags>
     <PackageLicenseExpression>Apache-2.0</PackageLicenseExpression>
 
     <!-- NuGet settings -->
     <IncludeSymbols>true</IncludeSymbols>
+
+    <!-- Dual-ship: lib/ for compile references + analyzers/ for Roslyn host -->
+    <TargetsForTfmSpecificContentInPackage>
+      $(TargetsForTfmSpecificContentInPackage);_PackAnalyzerAssets
+    </TargetsForTfmSpecificContentInPackage>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PublishRepositoryUrl>true</PublishRepositoryUrl>
     <EmbedUntrackedSources>true</EmbedUntrackedSources>
@@ -19,5 +25,12 @@
     <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
     <PackageReference Include="Microsoft.SourceLink.GitHub" Version="10.0.103" PrivateAssets="all" />
   </ItemGroup>
+
+  <Target Name="_PackAnalyzerAssets" Condition="'$(TargetFramework)' == 'netstandard2.0'">
+    <ItemGroup>
+      <TfmSpecificPackageFile Include="$(OutputPath)Lugha.Common.dll"
+                              PackagePath="analyzers/dotnet/cs" />
+    </ItemGroup>
+  </Target>
 
 </Project>
