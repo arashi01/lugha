@@ -52,8 +52,12 @@ public sealed class LocaleRegistry<TLocale>
   /// Returns <see langword="null"/> if no ancestor tag is registered.
   /// </summary>
   /// <param name="language">The BCP 47 language tag to look up.</param>
+  /// <exception cref="ArgumentNullException">
+  /// <paramref name="language"/> is <see langword="null"/>.
+  /// </exception>
   public TLocale? Resolve(string language)
   {
+    ArgumentNullException.ThrowIfNull(language);
     if (_locales.TryGetValue(language, out TLocale? locale))
     {
       return locale;
@@ -83,6 +87,9 @@ public sealed class LocaleRegistry<TLocale>
   /// <param name="language">The BCP 47 language tag to look up.</param>
   /// <param name="fallback">The locale to return when no match is found.</param>
   /// <returns>The matched locale, or <paramref name="fallback"/> if not registered.</returns>
+  /// <exception cref="ArgumentNullException">
+  /// <paramref name="language"/> is <see langword="null"/>.
+  /// </exception>
   /// <exception cref="ArgumentNullException">
   /// <paramref name="fallback"/> is <see langword="null"/>.
   /// </exception>

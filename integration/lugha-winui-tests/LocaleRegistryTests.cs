@@ -138,4 +138,25 @@ public sealed class LocaleRegistryTests
     act.Should().Throw<ArgumentNullException>()
         .WithParameterName("fallback");
   }
+
+  [Fact]
+  public void Resolve_rejects_null_language()
+  {
+    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
+    Action act = () => _ = registry.Resolve(null!);
+
+    act.Should().Throw<ArgumentNullException>()
+        .WithParameterName("language");
+  }
+
+  [Fact]
+  public void Resolve_with_fallback_rejects_null_language()
+  {
+    TestEnGbLocale fallback = new();
+    LocaleRegistry<ILocale> registry = new([fallback]);
+    Action act = () => _ = registry.Resolve(null!, fallback);
+
+    act.Should().Throw<ArgumentNullException>()
+        .WithParameterName("language");
+  }
 }

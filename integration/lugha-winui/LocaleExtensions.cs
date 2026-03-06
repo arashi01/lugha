@@ -16,8 +16,14 @@ public static class LocaleExtensions
   /// <see cref="System.Globalization.TextInfo.IsRightToLeft"/>.
   /// </summary>
   /// <param name="locale">The locale to query.</param>
-  public static FlowDirection FlowDirection(this ILocale locale) =>
-      locale.Culture.TextInfo.IsRightToLeft
-          ? Microsoft.UI.Xaml.FlowDirection.RightToLeft
-          : Microsoft.UI.Xaml.FlowDirection.LeftToRight;
+  /// <exception cref="ArgumentNullException">
+  /// <paramref name="locale"/> is <see langword="null"/>.
+  /// </exception>
+  public static FlowDirection FlowDirection(this ILocale locale)
+  {
+    ArgumentNullException.ThrowIfNull(locale);
+    return locale.Culture.TextInfo.IsRightToLeft
+        ? Microsoft.UI.Xaml.FlowDirection.RightToLeft
+        : Microsoft.UI.Xaml.FlowDirection.LeftToRight;
+  }
 }
