@@ -115,7 +115,7 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
 
     // Scopes property.
     sb.AppendLine("    /// <summary>All ITextScope-derived interface names.</summary>");
-    sb.Append("    public static ReadOnlySpan<string> Scopes => [");
+    sb.Append("    public static string[] Scopes => [");
     for (int i = 0; i < scopes.Count; i++)
     {
       if (i > 0)
@@ -131,7 +131,7 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
 
     // Locales property.
     sb.AppendLine("    /// <summary>All concrete ILocale class names.</summary>");
-    sb.Append("    public static ReadOnlySpan<string> Locales => [");
+    sb.Append("    public static string[] Locales => [");
     for (int i = 0; i < locales.Count; i++)
     {
       if (i > 0)
