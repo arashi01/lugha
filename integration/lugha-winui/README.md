@@ -213,8 +213,8 @@ Both hosts share the immutable registry and locale instances. Switching locale o
 
 | Member | Description |
 |---|---|
-| `static void Apply(ILocale locale)` | Sets `PrimaryLanguageOverride` to the locale's culture name. Packaged apps only. |
-| `static void Apply(ILocale locale, FrameworkElement rootElement)` | Sets `PrimaryLanguageOverride` and updates `FlowDirection`. Packaged apps only. |
+| `static void Apply(ILocale locale)` | Sets `PrimaryLanguageOverride` to the locale's culture name. Packaged apps only - throws `InvalidOperationException` in unpackaged apps. |
+| `static void Apply(ILocale locale, FrameworkElement rootElement)` | Sets `PrimaryLanguageOverride` (packaged apps) and updates `FlowDirection` (all apps). |
 
 ### `LocaleExtensions`
 

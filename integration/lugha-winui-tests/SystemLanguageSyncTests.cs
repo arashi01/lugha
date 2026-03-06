@@ -33,4 +33,12 @@ public sealed class SystemLanguageSyncTests
     act.Should().Throw<ArgumentNullException>()
         .WithParameterName("rootElement");
   }
+
+  [Fact(Skip = "ApplicationLanguages.PrimaryLanguageOverride requires a packaged application. " +
+               "Verified visually via the Lugha.Samples.WinUI packaged sample.")]
+  public void Apply_sets_PrimaryLanguageOverride()
+  {
+    // This test cannot run in the unpackaged test host.
+    // The behaviour is verified by the packaged sample project.
+  }
 }

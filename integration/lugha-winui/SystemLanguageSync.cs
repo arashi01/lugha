@@ -25,6 +25,11 @@ public static class SystemLanguageSync
   /// <exception cref="ArgumentNullException">
   /// <paramref name="locale"/> is <see langword="null"/>.
   /// </exception>
+  /// <exception cref="InvalidOperationException">
+  /// The application does not have a package identity.
+  /// <see cref="ApplicationLanguages.PrimaryLanguageOverride"/>
+  /// is only supported in packaged (MSIX) applications.
+  /// </exception>
   public static void Apply(ILocale locale)
   {
     ArgumentNullException.ThrowIfNull(locale);
@@ -32,10 +37,21 @@ public static class SystemLanguageSync
   }
 
   /// <summary>
-  /// Sets <see cref="ApplicationLanguages.PrimaryLanguageOverride"/> and updates
-  /// <paramref name="rootElement"/>'s <see cref="FrameworkElement.FlowDirection"/>
-  /// for right-to-left layout support.
+  /// Updates <paramref name="rootElement"/>'s <see cref="FrameworkElement.FlowDirection"/>
+  /// for right-to-left layout support and attempts to set
+  /// <see cref="ApplicationLanguages.PrimaryLanguageOverride"/>.
   /// </summary>
+  /// <remarks>
+  /// <para><see cref="FrameworkElement.FlowDirection"/> is always updated, regardless
+  /// of whether the application is packaged or unpackaged.</para>
+  /// <para><see cref="ApplicationLanguages.PrimaryLanguageOverride"/> is updated only
+  /// in packaged (MSIX) applications. In unpackaged applications the call is silently
+  /// skipped - callers still receive the <see cref="FrameworkElement.FlowDirection"/>
+  /// update.</para>
+  /// <para>The single-parameter <see cref="Apply(ILocale)"/> overload does not catch
+  /// the exception and will throw <see cref="InvalidOperationException"/> in unpackaged
+  /// applications.</para>
+  /// </remarks>
   /// <param name="locale">The locale whose culture name and flow direction to apply.</param>
   /// <param name="rootElement">
   /// The root element to update. Typically the window's content frame.
@@ -47,7 +63,16 @@ public static class SystemLanguageSync
   {
     ArgumentNullException.ThrowIfNull(locale);
     ArgumentNullException.ThrowIfNull(rootElement);
-    ApplicationLanguages.PrimaryLanguageOverride = locale.Culture.Name;
     rootElement.FlowDirection = locale.FlowDirection();
+    try
+    {
+      ApplicationLanguages.PrimaryLanguageOverride = locale.Culture.Name;
+    }
+    catch (InvalidOperationException)
+    {
+      // PrimaryLanguageOverride requires a packaged application identity.
+      // Unpackaged apps receive the FlowDirection update above but cannot
+      // set the system language override. This is silently ignored.
+    }
   }
 }
