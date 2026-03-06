@@ -151,6 +151,8 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 
 **WinUI 3 runtime language switching:** install `Lugha.WinUI` for the reactive locale host and registry. See [Lugha.WinUI](integration/lugha-winui/README.md).
 
+**Working sample:** the [WinUI sample app](samples/lugha-samples-winui/README.md) demonstrates Gettext import, four locales, runtime switching, RTL layout, and pluralisation in a packaged MSIX application.
+
 ## Packages
 
 | Package | Description |
@@ -164,6 +166,12 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 | [`Lugha.Import.Resx`](import/lugha-import-resx/) | Source generator for `.resx`/`.resw` resource files. [Documentation](import/lugha-import-resx/README.md). |
 | [`Lugha.Cli`](import/lugha-cli/) | .NET global tool for design-time translation import. [Documentation](import/lugha-cli/README.md). |
 | [`Lugha.WinUI`](integration/lugha-winui/) | WinUI 3 integration - reactive locale host and registry. [Documentation](integration/lugha-winui/README.md). |
+
+### Samples
+
+| Sample | Description |
+|--|--|
+| [`Lugha.Samples.WinUI`](samples/lugha-samples-winui/) | Packaged WinUI 3 app with four locales, Gettext import, runtime switching, RTL, and plurals. [Documentation](samples/lugha-samples-winui/README.md). |
 
 ## Design Properties
 

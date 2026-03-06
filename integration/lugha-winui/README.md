@@ -229,6 +229,10 @@ Both hosts share the immutable registry and locale instances. Switching locale o
 - Locale instances themselves are immutable and pure - sharing them across threads is safe.
 - `SystemLanguageSync.Apply` must be called from the UI thread (it accesses `FrameworkElement` properties).
 
+## Sample Application
+
+See [Lugha.Samples.WinUI](../../samples/lugha-samples-winui/README.md) for a complete packaged WinUI 3 app demonstrating registry setup, locale switching, RTL layout, `x:Bind` bindings, and Gettext source generation with four locales.
+
 ## Dependencies
 
 - `Lugha` - core runtime library.
