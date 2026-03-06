@@ -1,0 +1,7 @@
+{
+  "profiles": {
+    "Lugha.Samples.WinUI (Package)": {
+      "commandName": "MsixPackage"
+    }
+  }
+}

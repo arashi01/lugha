@@ -2,6 +2,7 @@
 [Bb]in/
 [Oo]bj/
 [Oo]ut/
+generated/
 
 # NuGet
 *.nupkg
@@ -26,7 +27,7 @@
 
 # MSBuild
 *.log
-msbuild.binlog
+*.binlog
 
 # Test results
 [Tt]est[Rr]esults/

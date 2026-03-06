@@ -111,8 +111,8 @@ public sealed class CodeEmitterTests
     var set = new TranslationSet("es-ES", [
         new TranslationEntry("Directory.FilesFound", "files found", ["count"], new Dictionary<string, string>
             {
-                ["one"] = "archivo encontrado",
-                ["other"] = "archivos encontrados",
+                ["one"] = "{count} archivo encontrado",
+                ["other"] = "{count} archivos encontrados",
             }),
         ]);
 
@@ -123,8 +123,8 @@ public sealed class CodeEmitterTests
     string content = files[0].Content;
     content.Should().Contain("Plural.Select<LatinEuropeanCardinal>");
     content.Should().Contain("new PluralForms");
-    content.Should().Contain("One = \"archivo encontrado\"");
-    content.Should().Contain("Other = \"archivos encontrados\"");
+    content.Should().Contain("One = $\"{count.ToString(\"N0\", Culture)} archivo encontrado\"");
+    content.Should().Contain("Other = $\"{count.ToString(\"N0\", Culture)} archivos encontrados\"");
     content.Should().Contain("CultureInfo.GetCultureInfo(\"es-ES\")");
     content.Should().Contain("using Lugha.Rules.Cardinals;");
   }
@@ -246,6 +246,78 @@ public sealed class CodeEmitterTests
 
     files.Should().HaveCount(1);
     files[0].Content.Should().Contain("public string Title => \"Title\";");
+  }
+
+  [Fact]
+  public void EmitImplementations_PluralEntry_FormsWithoutCount_EmitsPlainStrings()
+  {
+    var set = new TranslationSet("ar-SA", [
+        new TranslationEntry("Status.OnlineUsers", "users online", ["count"], new Dictionary<string, string>
+            {
+                ["zero"] = "لا مستخدمين متصلين",
+                ["one"] = "مستخدم متصل",
+                ["two"] = "مستخدمان متصلان",
+                ["few"] = "{count} مستخدمين متصلين",
+                ["many"] = "{count} مستخدمًا متصلًا",
+                ["other"] = "{count} مستخدم متصل",
+            }),
+        ]);
+
+    IReadOnlyList<EmittedFile> files = CodeEmitter.EmitImplementations(
+        set, TestNamespace, TestNamespace);
+
+    files.Should().HaveCount(1);
+    string content = files[0].Content;
+
+    // Forms without {count} are plain string literals
+    content.Should().Contain("Zero = \"لا مستخدمين متصلين\"");
+    content.Should().Contain("One = \"مستخدم متصل\"");
+    content.Should().Contain("Two = \"مستخدمان متصلان\"");
+
+    // Forms with {count} are interpolated strings
+    content.Should().Contain("Few = $\"{count.ToString(\"N0\", Culture)} مستخدمين متصلين\"");
+    content.Should().Contain("Many = $\"{count.ToString(\"N0\", Culture)} مستخدمًا متصلًا\"");
+    content.Should().Contain("Other = $\"{count.ToString(\"N0\", Culture)} مستخدم متصل\"");
+  }
+
+  [Fact]
+  public void EmitImplementations_PluralEntry_WithMixedParams_EmitsCorrectInterpolation()
+  {
+    var set = new TranslationSet("en", [
+        new TranslationEntry("Status.PostCount", "posts", ["count", "author"],
+            new Dictionary<string, string>
+            {
+                ["one"] = "{count} post by {author}",
+                ["other"] = "{count} posts by {author}",
+            }),
+        ]);
+
+    IReadOnlyList<EmittedFile> files = CodeEmitter.EmitImplementations(
+        set, TestNamespace, TestNamespace);
+
+    string content = files[0].Content;
+    content.Should().Contain("One = $\"{count.ToString(\"N0\", Culture)} post by {author}\"");
+    content.Should().Contain("Other = $\"{count.ToString(\"N0\", Culture)} posts by {author}\"");
+    content.Should().Contain("string PostCount(int count, string author)");
+  }
+
+  [Fact]
+  public void EmitImplementations_PluralEntry_SingleForm_EmitsCorrectly()
+  {
+    var set = new TranslationSet("zh", [
+        new TranslationEntry("Status.FileCount", "files", ["count"],
+            new Dictionary<string, string>
+            {
+                ["other"] = "{count} 个文件",
+            }),
+        ]);
+
+    IReadOnlyList<EmittedFile> files = CodeEmitter.EmitImplementations(
+        set, TestNamespace, TestNamespace);
+
+    string content = files[0].Content;
+    content.Should().Contain("Plural.Select<OtherOnlyCardinal>");
+    content.Should().Contain("Other = $\"{count.ToString(\"N0\", Culture)} 个文件\"");
   }
 
   [Fact]

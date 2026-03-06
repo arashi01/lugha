@@ -21,6 +21,8 @@
 
   <ItemGroup>
     <None Include="README.md" Pack="true" PackagePath="\" />
+    <None Include="build\Lugha.Import.Resx.targets" Pack="true" PackagePath="build\" />
+    <None Include="buildTransitive\Lugha.Import.Resx.targets" Pack="true" PackagePath="buildTransitive\" />
     <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="5.0.0" PrivateAssets="all" />
     <PackageReference Include="PolySharp" Version="1.15.0" PrivateAssets="all" />
   </ItemGroup>

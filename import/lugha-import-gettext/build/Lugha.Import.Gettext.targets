@@ -1,0 +1,8 @@
+<Project>
+  <Target Name="ConfigureLughaGettextMSBuildProperties"
+          BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <CompilerVisibleProperty Include="LughaNamespace" />
+    </ItemGroup>
+  </Target>
+</Project>

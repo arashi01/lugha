@@ -88,6 +88,14 @@ Parameters named `count` are typed as `int` and generate `Plural.Select` calls. 
 |---|---|---|
 | `LughaNamespace` | `Lugha.Generated` | Root namespace for all generated types. |
 
+The package ships a `.targets` file that declares `CompilerVisibleProperty` for `LughaNamespace` automatically — NuGet consumers need only set the property in their `.csproj`:
+
+```xml
+<PropertyGroup>
+  <LughaNamespace>MyApp.Translations</LughaNamespace>
+</PropertyGroup>
+```
+
 ## NuGet package layout
 
 The package places only `Lugha.Import.Gettext.dll` in `analyzers/dotnet/cs/`. Runtime dependencies (`Lugha.Import`, `Lugha.Common`) flow as NuGet package references so the Roslyn compiler host resolves them transitively.

@@ -1,0 +1,59 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0-windows10.0.19041.0</TargetFramework>
+    <TargetPlatformMinVersion>10.0.17763.0</TargetPlatformMinVersion>
+    <RootNamespace>Lugha.Samples.WinUI</RootNamespace>
+    <ApplicationManifest>app.manifest</ApplicationManifest>
+    <Platforms>x64</Platforms>
+    <RuntimeIdentifier>win-x64</RuntimeIdentifier>
+
+    <UseWinUI>true</UseWinUI>
+    <EnableMsixTooling>true</EnableMsixTooling>
+    <WindowsAppSdkDeploymentManagerInitialize>false</WindowsAppSdkDeploymentManagerInitialize>
+    <IsPackable>false</IsPackable>
+    <NoWarn>$(NoWarn);CA1515;IDE0060</NoWarn>
+    <LughaNamespace>Lugha.Samples.WinUI</LughaNamespace>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <CompilerVisibleProperty Include="LughaNamespace" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <AdditionalFiles Include="Translations\**\*.po" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="../../lugha/Lugha.csproj" />
+    <ProjectReference Include="../../integration/lugha-winui/Lugha.WinUI.csproj" />
+    <ProjectReference Include="../../import/lugha-import-gettext/Lugha.Import.Gettext.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false" />
+    <ProjectReference Include="../../import/lugha-import/Lugha.Import.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      SetTargetFramework="TargetFramework=netstandard2.0" />
+    <ProjectReference Include="../../lugha-common/Lugha.Common.csproj"
+                      OutputItemType="Analyzer"
+                      ReferenceOutputAssembly="false"
+                      SetTargetFramework="TargetFramework=netstandard2.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.WindowsAppSDK" Version="1.8.*" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Assets\Square150x150Logo.png" />
+    <Content Include="Assets\Square44x44Logo.png" />
+    <Content Include="Assets\StoreLogo.png" />
+    <Content Include="Assets\Wide310x150Logo.png" />
+  </ItemGroup>
+
+  <ItemGroup Condition="'$(DisableMsixProjectCapabilityAddedByProject)'!='true' and '$(EnableMsixTooling)'=='true'">
+    <ProjectCapability Include="Msix" />
+  </ItemGroup>
+
+</Project>

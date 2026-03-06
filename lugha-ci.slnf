@@ -1,0 +1,20 @@
+{
+  "solution": {
+    "path": "lugha.slnx",
+    "projects": [
+      "lugha\\Lugha.csproj",
+      "lugha-common\\Lugha.Common.csproj",
+      "lugha-analysers\\Lugha.Analysers.csproj",
+      "lugha-generators\\Lugha.Generators.csproj",
+      "lugha-tests\\Lugha.Tests.csproj",
+      "lugha-analysers-tests\\Lugha.Analysers.Tests.csproj",
+      "import\\lugha-import\\Lugha.Import.csproj",
+      "import\\lugha-import-gettext\\Lugha.Import.Gettext.csproj",
+      "import\\lugha-import-resx\\Lugha.Import.Resx.csproj",
+      "import\\lugha-cli\\Lugha.Cli.csproj",
+      "import\\lugha-import-tests\\Lugha.Import.Tests.csproj",
+      "integration\\lugha-winui\\Lugha.WinUI.csproj",
+      "integration\\lugha-winui-tests\\Lugha.WinUI.Tests.csproj"
+    ]
+  }
+}

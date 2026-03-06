@@ -2,9 +2,7 @@
 
   <Configurations>
     <Platform Name="Any CPU" />
-    <Platform Name="ARM64" />
     <Platform Name="x64" />
-    <Platform Name="x86" />
   </Configurations>
 
   <!-- Core library -->
@@ -48,5 +46,16 @@
 
   <!-- Documentation -->
   <Folder Name="/docs/" />
+
+  <!-- Samples -->
+  <Folder Name="/samples/">
+    <Project Path="samples/lugha-samples-winui/Lugha.Samples.WinUI.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+      <Deploy />
+    </Project>
+    <Project Path="samples/lugha-samples-winui-tests/Lugha.Samples.WinUI.Tests.csproj">
+      <Platform Solution="*|Any CPU" Project="x64" />
+    </Project>
+  </Folder>
 
 </Solution>

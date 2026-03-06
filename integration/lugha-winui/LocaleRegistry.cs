@@ -47,14 +47,48 @@ public sealed class LocaleRegistry<TLocale>
   public IEnumerable<string> Languages => _locales.Keys;
 
   /// <summary>
-  /// Resolves a locale by language tag.
-  /// Returns <see langword="null"/> if not found - caller decides fallback policy.
+  /// Resolves a locale by BCP 47 language tag with subtag fallback.
+  /// Strips subtags right-to-left until a match is found.
+  /// Returns <see langword="null"/> if no ancestor tag is registered.
   /// </summary>
   /// <param name="language">The BCP 47 language tag to look up.</param>
-  /// <returns>
-  /// The matching locale, or <see langword="null"/> if no locale is
-  /// registered for the specified tag.
-  /// </returns>
-  public TLocale? Resolve(string language) =>
-      _locales.GetValueOrDefault(language);
+  public TLocale? Resolve(string language)
+  {
+    if (_locales.TryGetValue(language, out TLocale? locale))
+    {
+      return locale;
+    }
+
+    ReadOnlySpan<char> tag = language.AsSpan();
+    while (true)
+    {
+      int lastHyphen = tag.LastIndexOf('-');
+      if (lastHyphen <= 0)
+      {
+        return null;
+      }
+
+      tag = tag[..lastHyphen];
+      if (_locales.TryGetValue(tag.ToString(), out locale))
+      {
+        return locale;
+      }
+    }
+  }
+
+  /// <summary>
+  /// Resolves a locale by BCP 47 language tag with subtag fallback.
+  /// Returns <paramref name="fallback"/> if no match is found.
+  /// </summary>
+  /// <param name="language">The BCP 47 language tag to look up.</param>
+  /// <param name="fallback">The locale to return when no match is found.</param>
+  /// <returns>The matched locale, or <paramref name="fallback"/> if not registered.</returns>
+  /// <exception cref="ArgumentNullException">
+  /// <paramref name="fallback"/> is <see langword="null"/>.
+  /// </exception>
+  public TLocale Resolve(string language, TLocale fallback)
+  {
+    ArgumentNullException.ThrowIfNull(fallback);
+    return Resolve(language) ?? fallback;
+  }
 }

@@ -1,0 +1,30 @@
+msgid ""
+msgstr ""
+"Language: ar-SA\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=6; plural=(n==0 ? 0 : n==1 ? 1 : n==2 ? 2 : n%100>=3 && n%100<=10 ? 3 : n%100>=11 ? 4 : 5);\n"
+
+msgid "Connection.Discovering"
+msgstr "البحث"
+
+msgid "Connection.Connecting"
+msgstr "الاتصال بـ {host}"
+
+msgid "Connection.Connected"
+msgstr "متصل بـ {host}"
+
+msgid "Navigation.Dashboard"
+msgstr "لوحة المعلومات"
+
+msgid "Navigation.Settings"
+msgstr "الإعدادات"
+
+msgid "Status.OnlineUsers"
+msgid_plural "Status.OnlineUsers_plural"
+msgstr[0] "لا مستخدمين متصلين"
+msgstr[1] "مستخدم متصل"
+msgstr[2] "مستخدمان متصلان"
+msgstr[3] "{count} مستخدمين متصلين"
+msgstr[4] "{count} مستخدمًا متصلًا"
+msgstr[5] "{count} مستخدم متصل"

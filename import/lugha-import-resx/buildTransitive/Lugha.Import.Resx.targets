@@ -1,0 +1,9 @@
+<Project>
+  <Target Name="ConfigureLughaResxMSBuildProperties"
+          BeforeTargets="PrepareForBuild">
+    <ItemGroup>
+      <CompilerVisibleProperty Include="LughaNamespace" />
+      <CompilerVisibleProperty Include="LughaDefaultLanguage" />
+    </ItemGroup>
+  </Target>
+</Project>

@@ -30,3 +30,9 @@ internal sealed class TestEsEsLocale : ILocale<LatinEuropeanCardinal, SpanishOrd
 {
   public CultureInfo Culture { get; } = CultureInfo.GetCultureInfo("es-ES");
 }
+
+/// <summary>Minimal test locale for base es tag (no region).</summary>
+internal sealed class TestEsLocale : ILocale<LatinEuropeanCardinal, SpanishOrdinal>
+{
+  public CultureInfo Culture { get; } = CultureInfo.GetCultureInfo("es");
+}

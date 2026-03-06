@@ -300,7 +300,7 @@ public static class CodeEmitter
     sb.Append("    public string ").Append(memberName).Append('(');
     AppendParameterList(sb, entry.Parameters);
     sb.AppendLine(") =>");
-    sb.Append("        $\"{count.ToString(\"N0\", Culture)} {Plural.Select<")
+    sb.Append("        Plural.Select<")
       .Append(rulePair.Cardinal)
       .AppendLine(">(count, new PluralForms");
     sb.AppendLine("        {");
@@ -308,12 +308,77 @@ public static class CodeEmitter
     foreach (KeyValuePair<string, string> kvp in entry.PluralForms!)
     {
       string categoryName = char.ToUpperInvariant(kvp.Key[0]) + kvp.Key[1..];
-      sb.Append("            ").Append(categoryName).Append(" = \"")
-        .Append(EscapeStringLiteral(kvp.Value))
-        .AppendLine("\",");
+      string formValue = kvp.Value;
+      bool hasInterpolation = HasInterpolationParams(formValue, entry.Parameters);
+
+      sb.Append("            ").Append(categoryName).Append(" = ");
+
+      if (hasInterpolation)
+      {
+        sb.Append("$\"").Append(ToPluralInterpolatedString(formValue)).Append('"');
+      }
+      else
+      {
+        sb.Append('"').Append(EscapeStringLiteral(formValue)).Append('"');
+      }
+
+      sb.AppendLine(",");
     }
 
-    sb.AppendLine("        })}\";");
+    sb.AppendLine("        });");
+  }
+
+  private static bool HasInterpolationParams(string value, IReadOnlyList<string> parameters)
+  {
+    for (int i = 0; i < parameters.Count; i++)
+    {
+      string placeholder = "{" + parameters[i] + "}";
+#if NET10_0_OR_GREATER
+            if (value.Contains(placeholder, StringComparison.Ordinal))
+            {
+                return true;
+            }
+#else
+      if (value.Contains(placeholder))
+      {
+        return true;
+      }
+#endif
+    }
+
+    return false;
+  }
+
+  /// <summary>
+  /// Converts a plural form template to a C# interpolated string body.
+  /// <c>{count}</c> is replaced with <c>{count.ToString("N0", Culture)}</c>;
+  /// other parameter placeholders are passed through as-is.
+  /// </summary>
+  private static string ToPluralInterpolatedString(string value)
+  {
+    // First apply standard literal escaping, then replace {count} with formatted version
+    string escaped = value
+#if NET10_0_OR_GREATER
+            .Replace("\\", "\\\\", StringComparison.Ordinal)
+            .Replace("\"", "\\\"", StringComparison.Ordinal)
+            .Replace("\n", "\\n", StringComparison.Ordinal)
+            .Replace("\r", "\\r", StringComparison.Ordinal)
+            .Replace("\t", "\\t", StringComparison.Ordinal);
+#else
+        .Replace("\\", "\\\\")
+        .Replace("\"", "\\\"")
+        .Replace("\n", "\\n")
+        .Replace("\r", "\\r")
+        .Replace("\t", "\\t");
+#endif
+
+    // Replace {count} with formatted count; other {param} placeholders pass through
+    return escaped
+#if NET10_0_OR_GREATER
+            .Replace("{count}", "{count.ToString(\"N0\", Culture)}", StringComparison.Ordinal);
+#else
+        .Replace("{count}", "{count.ToString(\"N0\", Culture)}");
+#endif
   }
 
   private static string EscapeStringLiteral(string value) =>

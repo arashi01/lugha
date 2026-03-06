@@ -1,0 +1,25 @@
+msgid ""
+msgstr ""
+"Language: zh-Hans\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=1; plural=0;\n"
+
+msgid "Connection.Discovering"
+msgstr "正在搜索"
+
+msgid "Connection.Connecting"
+msgstr "正在连接到 {host}"
+
+msgid "Connection.Connected"
+msgstr "已连接到 {host}"
+
+msgid "Navigation.Dashboard"
+msgstr "仪表盘"
+
+msgid "Navigation.Settings"
+msgstr "设置"
+
+msgid "Status.OnlineUsers"
+msgid_plural "Status.OnlineUsers_plural"
+msgstr[0] "{count} 位用户在线"

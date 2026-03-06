@@ -1,0 +1,30 @@
+<Window
+    x:Class="Lugha.Samples.WinUI.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    Title="Lugha WinUI Sample">
+
+    <Grid Padding="24">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <!-- Language switcher -->
+        <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
+            <Button Content="English" Click="OnEnglishClick" />
+            <Button Content="Arabic" Click="OnArabicClick" />
+            <Button Content="Spanish" Click="OnSpanishClick" />
+            <Button Content="Mandarin" Click="OnMandarinClick" />
+        </StackPanel>
+
+        <!-- Content -->
+        <StackPanel Grid.Row="1" Spacing="16" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <TextBlock Text="{x:Bind Host.Current.Navigation.Dashboard, Mode=OneWay}"
+                       Style="{StaticResource TitleTextBlockStyle}" />
+            <TextBlock Text="{x:Bind Host.Current.Connection.Discovering, Mode=OneWay}" />
+            <TextBlock Text="{x:Bind Host.Current.Connection.Connected(ServerName), Mode=OneWay}" />
+            <TextBlock Text="{x:Bind Host.Current.Navigation.Settings, Mode=OneWay}" />
+        </StackPanel>
+    </Grid>
+</Window>

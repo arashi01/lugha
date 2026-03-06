@@ -70,4 +70,72 @@ public sealed class LocaleRegistryTests
 
     registry.Resolve("en-GB").Should().BeNull();
   }
+
+  [Fact]
+  public void Resolve_falls_back_to_parent_tag_when_exact_tag_unregistered()
+  {
+    TestEsLocale es = new();
+    LocaleRegistry<ILocale> registry = new([es]);
+
+    registry.Resolve("es-419").Should().BeSameAs(es);
+  }
+
+  [Fact]
+  public void Resolve_falls_back_through_multiple_subtags()
+  {
+    TestArSaLocale arSa = new();
+    LocaleRegistry<ILocale> registry = new([arSa]);
+
+    // ar-SA-u-ca-islamic -> ar-SA-u-ca -> ar-SA-u -> ar-SA -> match
+    registry.Resolve("ar-SA-u-ca-islamic").Should().BeSameAs(arSa);
+  }
+
+  [Fact]
+  public void Resolve_prefers_exact_match_over_parent_fallback()
+  {
+    TestEsLocale es = new();
+    TestEsEsLocale esEs = new();
+    LocaleRegistry<ILocale> registry = new([es, esEs]);
+
+    registry.Resolve("es-ES").Should().BeSameAs(esEs);
+    registry.Resolve("es-419").Should().BeSameAs(es);
+  }
+
+  [Fact]
+  public void Resolve_returns_null_when_no_ancestor_registered()
+  {
+    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
+
+    registry.Resolve("fr-FR").Should().BeNull();
+  }
+
+  [Fact]
+  public void Resolve_with_fallback_returns_matched_locale()
+  {
+    TestEnGbLocale enGb = new();
+    TestArSaLocale arSa = new();
+    LocaleRegistry<ILocale> registry = new([enGb, arSa]);
+
+    registry.Resolve("en-GB", arSa).Should().BeSameAs(enGb);
+  }
+
+  [Fact]
+  public void Resolve_with_fallback_returns_fallback_on_miss()
+  {
+    TestEnGbLocale enGb = new();
+    TestArSaLocale arSa = new();
+    LocaleRegistry<ILocale> registry = new([enGb]);
+
+    registry.Resolve("fr-FR", arSa).Should().BeSameAs(arSa);
+  }
+
+  [Fact]
+  public void Resolve_with_fallback_rejects_null_fallback()
+  {
+    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
+    Action act = () => _ = registry.Resolve("en-GB", null!);
+
+    act.Should().Throw<ArgumentNullException>()
+        .WithParameterName("fallback");
+  }
 }

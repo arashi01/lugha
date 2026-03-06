@@ -94,6 +94,15 @@ Format holes (`{0}`) are converted to named parameters. Use `<comment>` elements
 | `LughaNamespace` | `Lugha.Generated` | Root namespace for all generated types. |
 | `LughaDefaultLanguage` | `en` | Language tag assumed for the reference file (used for CLDR rule resolution). |
 
+The package ships a `.targets` file that declares `CompilerVisibleProperty` for both properties automatically — NuGet consumers need only set the properties in their `.csproj`:
+
+```xml
+<PropertyGroup>
+  <LughaNamespace>MyApp.Translations</LughaNamespace>
+  <LughaDefaultLanguage>en-US</LughaDefaultLanguage>
+</PropertyGroup>
+```
+
 ## NuGet package layout
 
 The package places only `Lugha.Import.Resx.dll` in `analyzers/dotnet/cs/`. Runtime dependencies (`Lugha.Import`, `Lugha.Common`) flow as NuGet package references so the Roslyn compiler host resolves them transitively.

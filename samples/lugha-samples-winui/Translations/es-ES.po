@@ -1,0 +1,26 @@
+msgid ""
+msgstr ""
+"Language: es-ES\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+msgid "Connection.Discovering"
+msgstr "Descubriendo"
+
+msgid "Connection.Connecting"
+msgstr "Conectando a {host}"
+
+msgid "Connection.Connected"
+msgstr "Conectado a {host}"
+
+msgid "Navigation.Dashboard"
+msgstr "Panel"
+
+msgid "Navigation.Settings"
+msgstr "Ajustes"
+
+msgid "Status.OnlineUsers"
+msgid_plural "Status.OnlineUsers_plural"
+msgstr[0] "{count} usuario en línea"
+msgstr[1] "{count} usuarios en línea"
