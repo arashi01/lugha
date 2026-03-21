@@ -144,11 +144,12 @@ public sealed class LocaleRegistryTests
   }
 
   [Fact]
-  public void Contains_matches_via_subtag_fallback()
+  public void Contains_is_exact_match_not_subtag_fallback()
   {
     LocaleRegistry<ILocale> registry = CreateRegistry(new TestEsLocale());
 
-    registry.Contains("es-419").Should().BeTrue();
+    registry.Contains("es").Should().BeTrue();
+    registry.Contains("es-419").Should().BeFalse();
   }
 
   [Fact]
@@ -165,6 +166,9 @@ public sealed class LocaleRegistryTests
   {
     Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
         LocaleRegistry<ILocale>.Create(defaultLocale, additional);
-    return ((Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok)result).Value;
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok ok =
+        result.Should().BeOfType<Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok>()
+            .Which;
+    return ok.Value;
   }
 }

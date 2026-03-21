@@ -73,7 +73,7 @@ public sealed class LocaleRegistry<TLocale>
 
   /// <summary>
   /// Resolves by BCP 47 tag with subtag fallback.
-  /// Returns <see langword="null"/> if unregistered.
+  /// Returns <see langword="null"/> if no registered tag matches.
   /// </summary>
   public TLocale? TryResolve(string language)
   {
@@ -82,6 +82,8 @@ public sealed class LocaleRegistry<TLocale>
       return locale;
     }
 
+    FrozenDictionary<string, TLocale>.AlternateLookup<ReadOnlySpan<char>> lookup =
+        _locales.GetAlternateLookup<ReadOnlySpan<char>>();
     ReadOnlySpan<char> tag = language.AsSpan();
     while (true)
     {
@@ -92,13 +94,13 @@ public sealed class LocaleRegistry<TLocale>
       }
 
       tag = tag[..lastHyphen];
-      if (_locales.TryGetValue(tag.ToString(), out locale))
+      if (lookup.TryGetValue(tag, out locale))
       {
         return locale;
       }
     }
   }
 
-  /// <summary>Whether a locale matching <paramref name="language"/> is registered.</summary>
-  public bool Contains(string language) => TryResolve(language) is not null;
+  /// <summary>Whether a locale with the exact <paramref name="language"/> tag is registered.</summary>
+  public bool Contains(string language) => _locales.ContainsKey(language);
 }

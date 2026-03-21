@@ -7,6 +7,13 @@ namespace Lugha;
 /// Discriminated union for fallible operations. Closed hierarchy —
 /// exhaustive pattern matching is compiler-verified.
 /// </summary>
+/// <remarks>
+/// Implicit conversions from both <typeparamref name="TValue"/> and
+/// <typeparamref name="TError"/> are provided. When the two type parameters
+/// are the same type, the implicit conversions are ambiguous — construct
+/// explicitly via <c>new Result&lt;T, T&gt;.Ok(value)</c> or
+/// <c>new Result&lt;T, T&gt;.Err(error)</c>.
+/// </remarks>
 /// <typeparam name="TValue">Success value type.</typeparam>
 /// <typeparam name="TError">Error value type.</typeparam>
 #pragma warning disable CA1034 // Sealed hierarchy requires nested subtypes
