@@ -308,8 +308,8 @@ When at least one `ITextScope` interface or `ILocale` class exists, the generato
 // Auto-generated
 public static partial class LocaleManifest
 {
-    public static ReadOnlySpan<string> Scopes => ["IConnectionText", "INavigationText"];
-    public static ReadOnlySpan<string> Locales => ["EnGbLocale", "ArSaLocale"];
+    public static string[] Scopes => ["IConnectionText", "INavigationText"];
+    public static string[] Locales => ["EnGbLocale", "ArSaLocale"];
     public static int MemberCount<TScope>() where TScope : Lugha.ITextScope => ...;
 }
 ```

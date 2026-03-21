@@ -115,7 +115,7 @@ registry.Resolve("fr-FR");  // no match -> returns Default
 
 `Resolve` is a total function — it always returns a locale, falling back to `Default` when no match is found. Use `TryResolve` if you need `null` for unregistered tags.
 
-Exact matches use the original `string` with no allocation. The fallback loop allocates one `string` per subtag stripped - acceptable for this cold path (called once per locale switch).
+Exact matches use the original `string` with no allocation. The subtag fallback path uses `FrozenDictionary.GetAlternateLookup<ReadOnlySpan<char>>()` for zero-allocation lookup — no intermediate strings are allocated regardless of how many subtags are stripped.
 
 ## System Language and RTL
 
@@ -190,7 +190,7 @@ Both hosts share the immutable registry and locale instances. Switching locale o
 | `IEnumerable<TLocale> Locales` | All registered locale instances. |
 | `TLocale Resolve(string language)` | BCP 47 lookup with subtag fallback. Returns `Default` if no match. |
 | `TLocale? TryResolve(string language)` | BCP 47 lookup with subtag fallback. Returns `null` if no match. |
-| `bool Contains(string language)` | Whether a locale matching the tag is registered. |
+| `bool Contains(string language)` | Whether a locale with the exact tag is registered. Does not perform subtag fallback. |
 
 ### `LocaleHost<TLocale>` (core Lugha)
 

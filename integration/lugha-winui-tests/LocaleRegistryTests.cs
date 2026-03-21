@@ -144,11 +144,12 @@ public sealed class LocaleRegistryTests
   }
 
   [Fact]
-  public void Contains_matches_via_subtag_fallback()
+  public void Contains_is_exact_match_not_subtag_fallback()
   {
     LocaleRegistry<ILocale> registry = CreateRegistry(new TestEsLocale());
 
-    registry.Contains("es-419").Should().BeTrue();
+    registry.Contains("es").Should().BeTrue();
+    registry.Contains("es-419").Should().BeFalse();
   }
 
   [Fact]
