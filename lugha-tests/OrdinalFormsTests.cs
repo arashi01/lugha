@@ -55,7 +55,7 @@ public sealed class OrdinalFormsTests
   // ---- Resolved-value equality ------------------------------------
 
   [Fact]
-  public void Equality_ComparesResolvedValues_NotBackingFields()
+  public void Equality_ComparesResolvedValues()
   {
     OrdinalForms implicitFallback = new() { Other = "th" };
 
@@ -66,7 +66,7 @@ public sealed class OrdinalFormsTests
       One = "th",
       Two = "th",
       Few = "th",
-      Many = "th",
+      Many = "th"
     };
 
     implicitFallback.Should().Be(explicitAll);

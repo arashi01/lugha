@@ -30,7 +30,7 @@ public sealed class LocaleHostTests
     await RunWithDispatcherAsync(dispatcher =>
     {
       var locale = new TestEnGbLocale();
-      var host = new LocaleHost<ILocale>(locale, dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(locale, dispatcher);
 
       host.Current.Should().BeSameAs(locale);
       return Task.CompletedTask;
@@ -38,38 +38,13 @@ public sealed class LocaleHostTests
   }
 
   [Fact]
-  public async Task Constructor_rejects_null_initial()
+  public async Task Factory_returns_WinUILocaleHost()
   {
     await RunWithDispatcherAsync(dispatcher =>
     {
-      Action act = () => _ = new LocaleHost<ILocale>(null!, dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(new TestEnGbLocale(), dispatcher);
 
-      act.Should().Throw<ArgumentNullException>()
-              .WithParameterName("initial");
-      return Task.CompletedTask;
-    });
-  }
-
-  [Fact]
-  public void Constructor_rejects_null_dispatcher()
-  {
-    var locale = new TestEnGbLocale();
-    Action act = () => _ = new LocaleHost<ILocale>(locale, null!);
-
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("dispatcher");
-  }
-
-  [Fact]
-  public async Task SetLocale_rejects_null()
-  {
-    await RunWithDispatcherAsync(dispatcher =>
-    {
-      var host = new LocaleHost<ILocale>(new TestEnGbLocale(), dispatcher);
-      Action act = () => host.SetLocale(null!);
-
-      act.Should().Throw<ArgumentNullException>()
-              .WithParameterName("locale");
+      host.Should().BeOfType<WinUILocaleHost<ILocale>>();
       return Task.CompletedTask;
     });
   }
@@ -81,7 +56,7 @@ public sealed class LocaleHostTests
     {
       var initial = new TestEnGbLocale();
       var replacement = new TestArSaLocale();
-      var host = new LocaleHost<ILocale>(initial, dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(initial, dispatcher);
 
       var tcs = new TaskCompletionSource();
       dispatcher.TryEnqueue(() =>
@@ -96,11 +71,11 @@ public sealed class LocaleHostTests
   }
 
   [Fact]
-  public async Task SetLocale_fires_PropertyChanged_for_Current()
+  public async Task SetLocale_fires_PropertyChanged_for_Current_and_FlowDirection()
   {
     await RunWithDispatcherAsync(async dispatcher =>
     {
-      var host = new LocaleHost<ILocale>(new TestEnGbLocale(), dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(new TestEnGbLocale(), dispatcher);
       List<string> firedProperties = [];
 
       host.PropertyChanged += (_, e) =>
@@ -119,8 +94,9 @@ public sealed class LocaleHostTests
           });
 
       await tcs.Task;
-      firedProperties.Should().ContainSingle()
-              .Which.Should().Be(nameof(LocaleHost<ILocale>.Current));
+      firedProperties.Should().ContainInOrder(
+          nameof(LocaleHost<ILocale>.Current),
+          nameof(WinUILocaleHost<ILocale>.FlowDirection));
     });
   }
 
@@ -130,7 +106,7 @@ public sealed class LocaleHostTests
     await RunWithDispatcherAsync(async dispatcher =>
     {
       var locale = new TestEnGbLocale();
-      var host = new LocaleHost<ILocale>(locale, dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(locale, dispatcher);
       bool fired = false;
 
       host.PropertyChanged += (_, _) => fired = true;
@@ -154,10 +130,10 @@ public sealed class LocaleHostTests
     {
       var initial = new TestEnGbLocale();
       var replacement = new TestArSaLocale();
-      var host = new LocaleHost<ILocale>(initial, dispatcher);
+      WinUILocaleHost<ILocale> host = LocaleHostFactory.Create<ILocale>(initial, dispatcher);
 
       var tcs = new TaskCompletionSource();
-      host.PropertyChanged += (_, _) => tcs.SetResult();
+      host.PropertyChanged += (_, _) => tcs.TrySetResult();
 
       // Call from a background thread (not the dispatcher thread)
       await Task.Run(() => host.SetLocale(replacement));

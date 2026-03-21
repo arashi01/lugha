@@ -10,7 +10,7 @@ Roslyn diagnostic analysers that enforce text scope correctness at compile time.
 | LGH003 | Error | Enabled | Text scope implementation returns `null`, `null!`, `default`, `default!`, `string.Empty`, or `""`. |
 | LGH004 | Warning | Enabled | Parameterised text scope method does not use all parameters in its return expression. |
 | LGH005 | Info | Opt-in | Text scope interface has no implementations in the assembly. |
-| LGH006 | Info | Opt-in | `PluralForms` initialiser sets only `Other` and `One` for a language needing more CLDR categories. |
+| LGH006 | Warning | Enabled | `PluralForms` initialiser sets only `Other` and `One` for a language needing more CLDR categories. |
 | LGH007 | Info | Opt-in | Text scope member defined but unreferenced in the assembly. |
 | LGH008 | Warning | Enabled | Text scope implementation body contains side-effecting calls (heuristic). |
 
@@ -21,7 +21,6 @@ Add an `.editorconfig` entry:
 ```ini
 [*.cs]
 dotnet_diagnostic.LGH005.severity = suggestion
-dotnet_diagnostic.LGH006.severity = suggestion
 dotnet_diagnostic.LGH007.severity = suggestion
 ```
 
@@ -55,7 +54,7 @@ Registers a compilation-start action that installs syntax-node and compilation-e
 
 ### LGH008 - `SideEffectAnalyser`
 
-Registers on `MethodDeclaration` and `PropertyDeclaration`. Scans the body/expression for known side-effect patterns: `Console`, `File`, `HttpClient`, `Debug`, `Trace` member access; `await` expressions; field/property assignments outside the method; and `throw` of non-argument exceptions.
+Registers on `MethodDeclaration` and `PropertyDeclaration`. Scans the body/expression for known side-effect patterns: `Console`, `File`, `HttpClient`, `Debug`, `Trace` member access; `await` expressions; field/property assignments outside the method; and any `throw` expression or statement.
 
 ## Build
 

@@ -37,3 +37,6 @@ coverage/
 
 # OS files
 Thumbs.db
+
+*.md
+!README.md

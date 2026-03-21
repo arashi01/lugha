@@ -9,7 +9,7 @@ namespace Lugha.Tests;
 
 /// <summary>
 /// Verifies that all public entry points accepting a <c>count</c> parameter
-/// throw <see cref="ArgumentOutOfRangeException"/> for negative values.
+/// clamp negative values to zero rather than throwing.
 /// </summary>
 public sealed class NegativeInputTests
 {
@@ -21,92 +21,86 @@ public sealed class NegativeInputTests
   // ---- Plural - generic path --------------------------------------
 
   [Fact]
-  public void Plural_Select_Generic_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Plural.Select<OneOtherCardinal>(-1, ItemForms));
+  public void Plural_Select_Generic_ClampsNegativeToZero() =>
+      Plural.Select<OneOtherCardinal>(-1, ItemForms).Should().Be("items");
 
   [Fact]
-  public void Plural_Format_Generic_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Plural.Format<OneOtherCardinal>(-1, ItemForms, Culture));
+  public void Plural_Format_Generic_ClampsNegativeToZero() =>
+      Plural.Format<OneOtherCardinal>(-1, ItemForms, Culture).Should().StartWith("0");
 
   [Fact]
-  public void Plural_TryFormat_Generic_ThrowsForNegative()
+  public void Plural_TryFormat_Generic_ClampsNegativeToZero()
   {
     char[] buffer = new char[64];
-    Assert.Throws<ArgumentOutOfRangeException>(
-        () => Plural.TryFormat<OneOtherCardinal>(-1, ItemForms, Culture, buffer, out _));
+    Plural.TryFormat<OneOtherCardinal>(-1, ItemForms, Culture, buffer, out int written)
+        .Should().BeTrue();
+    new string(buffer, 0, written).Should().StartWith("0");
   }
 
   // ---- Plural - locale path ---------------------------------------
 
   [Fact]
-  public void Plural_Select_Locale_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Plural.Select(-1, ItemForms, Locale));
+  public void Plural_Select_Locale_ClampsNegativeToZero() =>
+      Plural.Select(-1, ItemForms, Locale).Should().Be("items");
 
   [Fact]
-  public void Plural_Format_Locale_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Plural.Format(-1, ItemForms, Locale));
+  public void Plural_Format_Locale_ClampsNegativeToZero() =>
+      Plural.Format(-1, ItemForms, Locale).Should().StartWith("0");
 
   [Fact]
-  public void Plural_TryFormat_Locale_ThrowsForNegative()
+  public void Plural_TryFormat_Locale_ClampsNegativeToZero()
   {
     char[] buffer = new char[64];
-    Assert.Throws<ArgumentOutOfRangeException>(
-        () => Plural.TryFormat(-1, ItemForms, Locale, buffer, out _));
+    Plural.TryFormat(-1, ItemForms, Locale, buffer, out int written)
+        .Should().BeTrue();
+    new string(buffer, 0, written).Should().StartWith("0");
   }
 
   // ---- Ordinal - generic path -------------------------------------
 
   [Fact]
-  public void Ordinal_Select_Generic_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Lugha.Ordinal.Select<EnglishOrdinal>(-1, Suffixes));
+  public void Ordinal_Select_Generic_ClampsNegativeToZero() =>
+      Lugha.Ordinal.Select<EnglishOrdinal>(-1, Suffixes).Should().Be("th");
 
   [Fact]
-  public void Ordinal_Format_Generic_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Lugha.Ordinal.Format<EnglishOrdinal>(-1, Suffixes, Culture));
+  public void Ordinal_Format_Generic_ClampsNegativeToZero() =>
+      Lugha.Ordinal.Format<EnglishOrdinal>(-1, Suffixes, Culture).Should().StartWith("0");
 
   [Fact]
-  public void Ordinal_TryFormat_Generic_ThrowsForNegative()
+  public void Ordinal_TryFormat_Generic_ClampsNegativeToZero()
   {
     char[] buffer = new char[64];
-    Assert.Throws<ArgumentOutOfRangeException>(
-        () => Lugha.Ordinal.TryFormat<EnglishOrdinal>(-1, Suffixes, Culture, buffer, out _));
+    Lugha.Ordinal.TryFormat<EnglishOrdinal>(-1, Suffixes, Culture, buffer, out int written)
+        .Should().BeTrue();
+    new string(buffer, 0, written).Should().StartWith("0");
   }
 
   // ---- Ordinal - locale path --------------------------------------
 
   [Fact]
-  public void Ordinal_Select_Locale_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Lugha.Ordinal.Select(-1, Suffixes, Locale));
+  public void Ordinal_Select_Locale_ClampsNegativeToZero() =>
+      Lugha.Ordinal.Select(-1, Suffixes, Locale).Should().Be("th");
 
   [Fact]
-  public void Ordinal_Format_Locale_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => Lugha.Ordinal.Format(-1, Suffixes, Locale));
+  public void Ordinal_Format_Locale_ClampsNegativeToZero() =>
+      Lugha.Ordinal.Format(-1, Suffixes, Locale).Should().StartWith("0");
 
   [Fact]
-  public void Ordinal_TryFormat_Locale_ThrowsForNegative()
+  public void Ordinal_TryFormat_Locale_ClampsNegativeToZero()
   {
     char[] buffer = new char[64];
-    Assert.Throws<ArgumentOutOfRangeException>(
-        () => Lugha.Ordinal.TryFormat(-1, Suffixes, Locale, buffer, out _));
+    Lugha.Ordinal.TryFormat(-1, Suffixes, Locale, buffer, out int written)
+        .Should().BeTrue();
+    new string(buffer, 0, written).Should().StartWith("0");
   }
 
   // ---- ILocale DIM boundary ---------------------------------------
 
   [Fact]
-  public void ILocale_Cardinal_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => ((ILocale)Locale).Cardinal(-1));
+  public void ILocale_Cardinal_ClampsNegativeToZero() =>
+      ((ILocale)Locale).Cardinal(-1).Should().Be(PluralCategory.Other);
 
   [Fact]
-  public void ILocale_Ordinal_ThrowsForNegative() =>
-      Assert.Throws<ArgumentOutOfRangeException>(
-          () => ((ILocale)Locale).Ordinal(-1));
+  public void ILocale_Ordinal_ClampsNegativeToZero() =>
+      ((ILocale)Locale).Ordinal(-1).Should().Be(OrdinalCategory.Other);
 }

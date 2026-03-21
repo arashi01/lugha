@@ -130,7 +130,7 @@ public sealed class SideEffectTests
   }
 
   [Fact]
-  public async Task Throw_ArgumentException_in_text_scope_produces_no_LGH008()
+  public async Task Throw_ArgumentException_in_text_scope_produces_LGH008()
   {
     const string Source = Stubs + """
 
@@ -138,13 +138,19 @@ public sealed class SideEffectTests
             {
                 public string Label => "Hello";
                 public string Format(string arg) =>
-                    string.IsNullOrEmpty(arg) ? throw new System.ArgumentException("arg") : arg;
+                    string.IsNullOrEmpty(arg) ? {|#0:throw new System.ArgumentException("arg")|} : arg;
             }
             """;
 
     var test = new CSharpAnalyzerTest<SideEffectAnalyser, DefaultVerifier>
     {
       TestCode = Source,
+      ExpectedDiagnostics =
+            {
+                new DiagnosticResult("LGH008", DiagnosticSeverity.Warning)
+                    .WithLocation(0)
+                    .WithArguments("Format", "throw"),
+            },
       ReferenceAssemblies = ReferenceAssemblies.Net.Net80,
     };
 

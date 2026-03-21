@@ -18,13 +18,4 @@ public sealed class LocaleExtensionsTests
   {
     new TestArSaLocale().FlowDirection().Should().Be(FlowDirection.RightToLeft);
   }
-
-  [Fact]
-  public void FlowDirection_rejects_null_locale()
-  {
-    Action act = () => ((ILocale)null!).FlowDirection();
-
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("locale");
-  }
 }

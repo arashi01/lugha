@@ -4,8 +4,8 @@
 namespace Lugha.Tests;
 
 /// <summary>
-/// Tests <see cref="PluralForms"/> resolved-value equality, fallback
-/// behaviour, and <c>ToString</c> output.
+/// Tests <see cref="PluralForms"/> data integrity, equality,
+/// and <see cref="PluralCategoryExtensions.Select"/> fallback behaviour.
 /// </summary>
 public sealed class PluralFormsTests
 {
@@ -15,16 +15,16 @@ public sealed class PluralFormsTests
     One = "item",
   };
 
-  // ---- Fallback behaviour -----------------------------------------
+  // ---- Fallback behaviour -------------------------------------------
 
   [Fact]
   public void UnsetSlots_FallBackToOther()
   {
     PluralForms forms = new() { Other = "x" };
 
+    forms.Zero.Should().Be("x");
     forms.One.Should().Be("x");
     forms.Two.Should().Be("x");
-    forms.Zero.Should().Be("x");
     forms.Few.Should().Be("x");
     forms.Many.Should().Be("x");
   }
@@ -50,12 +50,12 @@ public sealed class PluralFormsTests
     forms.Many.Should().Be("many");
   }
 
-  // ---- Resolved-value equality ------------------------------------
+  // ---- Record equality ------------------------------------------------
 
   [Fact]
-  public void Equality_ComparesResolvedValues_NotBackingFields()
+  public void Equality_ComparesResolvedValues()
   {
-    // Only Other set explicitly - all slots resolve to "x"
+    // Only Other set - optional slots resolve to Other
     PluralForms implicitFallback = new() { Other = "x" };
 
     // All slots explicitly set to the same value
@@ -71,6 +71,16 @@ public sealed class PluralFormsTests
 
     implicitFallback.Should().Be(explicitAll);
     implicitFallback.GetHashCode().Should().Be(explicitAll.GetHashCode());
+  }
+
+  [Fact]
+  public void Equality_SameExplicitSlots_AreEqual()
+  {
+    PluralForms a = new() { Other = "items", One = "item" };
+    PluralForms b = new() { Other = "items", One = "item" };
+
+    a.Should().Be(b);
+    a.GetHashCode().Should().Be(b.GetHashCode());
   }
 
   [Fact]
@@ -91,21 +101,20 @@ public sealed class PluralFormsTests
     withOne.Should().NotBe(withoutOne);
   }
 
-  // ---- ToString ---------------------------------------------------
+  // ---- ToString -------------------------------------------------------
 
   [Fact]
-  public void ToString_PrintsResolvedValues()
+  public void ToString_ContainsOtherValue()
   {
     PluralForms forms = new() { Other = "items", One = "item" };
 
     string text = forms.ToString();
 
-    // Resolved: One = "item", all others = "items" (the fallback value)
-    text.Should().Contain("item");
     text.Should().Contain("items");
+    text.Should().Contain("item");
   }
 
-  // ---- Select extension -------------------------------------------
+  // ---- Select extension fallback --------------------------------------
 
   [Fact]
   public void Select_ReturnsCorrectForm_ForEachCategory()
@@ -129,7 +138,7 @@ public sealed class PluralFormsTests
   }
 
   [Fact]
-  public void Select_UnsetCategory_ReturnsFallback()
+  public void Select_UnsetCategory_FallsBackToOther()
   {
     PluralCategory.Few.Select(ItemForms).Should().Be("items");
   }

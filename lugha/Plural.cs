@@ -29,8 +29,8 @@ namespace Lugha;
 ///     Use in locale-agnostic components receiving <see cref="ILocale"/>.</item>
 /// </list>
 /// <para>
-/// All methods guard against negative <c>count</c> via
-/// <see cref="ArgumentOutOfRangeException.ThrowIfNegative"/>.
+/// All methods are total functions. Negative <c>count</c> values are
+/// clamped to zero.
 /// </para>
 /// </remarks>
 public static class Plural
@@ -45,17 +45,13 @@ public static class Plural
   /// A CLDR cardinal rule implementation (e.g.
   /// <c>OneOtherCardinal</c>, <c>EastSlavicCardinal</c>).
   /// </typeparam>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
-  /// <returns>The resolved plural form string.</returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
   public static string Select<TRules>(int count, PluralForms forms)
       where TRules : ICardinalRules<TRules>
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return TRules.Cardinal(count).Select(forms);
+    int c = Math.Max(0, count);
+    return TRules.Cardinal(c).Select(forms);
   }
 
   /// <summary>
@@ -63,28 +59,22 @@ public static class Plural
   /// <c>"{count} {form}"</c> using <paramref name="culture"/> for number formatting.
   /// </summary>
   /// <typeparam name="TRules">A CLDR cardinal rule implementation.</typeparam>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
-  /// <param name="culture">
-  /// Culture for number formatting (e.g. thousands separator).
-  /// </param>
-  /// <returns>Formatted string such as <c>"1 item"</c> or <c>"5 items"</c>.</returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
+  /// <param name="culture">Culture for number formatting.</param>
   public static string Format<TRules>(
       int count, PluralForms forms, CultureInfo culture)
       where TRules : ICardinalRules<TRules>
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString("N0", culture)} {TRules.Cardinal(count).Select(forms)}";
+    int c = Math.Max(0, count);
+    return $"{c.ToString("N0", culture)} {TRules.Cardinal(c).Select(forms)}";
   }
 
   /// <summary>
   /// Attempts to write <c>"{count} {form}"</c> into <paramref name="destination"/>.
   /// </summary>
   /// <typeparam name="TRules">A CLDR cardinal rule implementation.</typeparam>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
   /// <param name="culture">Culture for number formatting.</param>
   /// <param name="destination">Target buffer.</param>
@@ -93,9 +83,6 @@ public static class Plural
   /// <see langword="true"/> if the formatted text fits;
   /// <see langword="false"/> if <paramref name="destination"/> is too small.
   /// </returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
   public static bool TryFormat<TRules>(
       int count,
       PluralForms forms,
@@ -104,10 +91,10 @@ public static class Plural
       out int written)
       where TRules : ICardinalRules<TRules>
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
+    int c = Math.Max(0, count);
     return destination.TryWrite(
         culture,
-        $"{count:N0} {TRules.Cardinal(count).Select(forms)}",
+        $"{c:N0} {TRules.Cardinal(c).Select(forms)}",
         out written);
   }
 
@@ -117,41 +104,33 @@ public static class Plural
   /// Resolves the cardinal plural form for <paramref name="count"/>
   /// using the rules bound to <paramref name="locale"/>.
   /// </summary>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
   /// <param name="locale">Locale providing cardinal resolution and culture.</param>
-  /// <returns>The resolved plural form string.</returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
   public static string Select(int count, PluralForms forms, ILocale locale)
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return locale.Cardinal(count).Select(forms);
+    int c = Math.Max(0, count);
+    return locale.Cardinal(c).Select(forms);
   }
 
   /// <summary>
   /// Formats <paramref name="count"/> and the resolved plural form as
   /// <c>"{count} {form}"</c> using the locale's culture for number formatting.
   /// </summary>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
   /// <param name="locale">Locale providing cardinal resolution and culture.</param>
-  /// <returns>Formatted string such as <c>"1 item"</c> or <c>"5 items"</c>.</returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
   public static string Format(int count, PluralForms forms, ILocale locale)
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return $"{count.ToString("N0", locale.Culture)} {locale.Cardinal(count).Select(forms)}";
+    int c = Math.Max(0, count);
+    return $"{c.ToString("N0", locale.Culture)} {locale.Cardinal(c).Select(forms)}";
   }
 
   /// <summary>
   /// Attempts to write <c>"{count} {form}"</c> into <paramref name="destination"/>
   /// using the locale's culture for number formatting.
   /// </summary>
-  /// <param name="count">Non-negative item count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   /// <param name="forms">Plural form strings keyed by CLDR category.</param>
   /// <param name="locale">Locale providing cardinal resolution and culture.</param>
   /// <param name="destination">Target buffer.</param>
@@ -160,9 +139,6 @@ public static class Plural
   /// <see langword="true"/> if the formatted text fits;
   /// <see langword="false"/> if <paramref name="destination"/> is too small.
   /// </returns>
-  /// <exception cref="ArgumentOutOfRangeException">
-  /// <paramref name="count"/> is negative.
-  /// </exception>
   public static bool TryFormat(
       int count,
       PluralForms forms,
@@ -170,10 +146,10 @@ public static class Plural
       Span<char> destination,
       out int written)
   {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
+    int c = Math.Max(0, count);
     return destination.TryWrite(
         locale.Culture,
-        $"{count:N0} {locale.Cardinal(count).Select(forms)}",
+        $"{c:N0} {locale.Cardinal(c).Select(forms)}",
         out written);
   }
 }
