@@ -166,6 +166,9 @@ public sealed class LocaleRegistryTests
   {
     Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
         LocaleRegistry<ILocale>.Create(defaultLocale, additional);
-    return ((Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok)result).Value;
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok ok =
+        result.Should().BeOfType<Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok>()
+            .Which;
+    return ok.Value;
   }
 }

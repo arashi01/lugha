@@ -24,3 +24,11 @@ internal sealed class TestDeLocale : ILocale<OneOtherCardinal, OtherOnlyOrdinal>
 {
   public CultureInfo Culture { get; } = CultureInfo.GetCultureInfo("de-DE");
 }
+
+/// <summary>
+/// RTL locale for testing directionality APIs.
+/// </summary>
+internal sealed class TestArSaLocale : ILocale<ArabicCardinal, OtherOnlyOrdinal>
+{
+  public CultureInfo Culture { get; } = CultureInfo.GetCultureInfo("ar-SA");
+}

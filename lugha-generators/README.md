@@ -21,8 +21,8 @@ Emits a `partial class LocaleManifest` providing compile-time metadata about the
 ```csharp
 public static partial class LocaleManifest
 {
-    public static string[] Scopes => ["IConnectionText", "INavigationText"];
-    public static string[] Locales => ["EnGbLocale", "ArSaLocale"];
+    public static IReadOnlyList<string> Scopes => ...;
+    public static IReadOnlyList<string> Locales => ...;
     public static int MemberCount<TScope>() where TScope : Lugha.ITextScope => ...;
 }
 ```
