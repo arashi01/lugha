@@ -4,27 +4,39 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     Title="Lugha WinUI Sample">
 
-    <Grid Padding="24">
+    <Grid Padding="24" RowSpacing="24"
+          FlowDirection="{x:Bind Host.FlowDirection, Mode=OneWay}">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto" />
             <RowDefinition Height="*" />
         </Grid.RowDefinitions>
 
-        <!-- Language switcher -->
+        <!-- Language switcher: tags drive SwitchLocale via a single handler -->
         <StackPanel Orientation="Horizontal" Spacing="8" HorizontalAlignment="Right">
-            <Button Content="English" Click="OnEnglishClick" />
-            <Button Content="Arabic" Click="OnArabicClick" />
-            <Button Content="Spanish" Click="OnSpanishClick" />
-            <Button Content="Mandarin" Click="OnMandarinClick" />
+            <Button Content="English"  Tag="en-GB"   Click="OnLanguageSelected" />
+            <Button Content="العربية"  Tag="ar-SA"   Click="OnLanguageSelected" />
+            <Button Content="Español"  Tag="es-ES"   Click="OnLanguageSelected" />
+            <Button Content="中文"     Tag="zh-Hans"  Click="OnLanguageSelected" />
         </StackPanel>
 
-        <!-- Content -->
+        <!-- Content: demonstrates invariant, parameterised, and plural text -->
         <StackPanel Grid.Row="1" Spacing="16" VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!-- Invariant text (property binding) -->
             <TextBlock Text="{x:Bind Host.Current.Navigation.Dashboard, Mode=OneWay}"
                        Style="{StaticResource TitleTextBlockStyle}" />
+
+            <!-- Invariant text -->
             <TextBlock Text="{x:Bind Host.Current.Connection.Discovering, Mode=OneWay}" />
-            <TextBlock Text="{x:Bind Host.Current.Connection.Connected(ServerName), Mode=OneWay}" />
             <TextBlock Text="{x:Bind Host.Current.Navigation.Settings, Mode=OneWay}" />
+
+            <!-- Parameterised text (method binding) -->
+            <TextBlock Text="{x:Bind Host.Current.Connection.Connected(ServerName), Mode=OneWay}" />
+
+            <!-- Pluralisation -->
+            <TextBlock Text="{x:Bind Host.Current.Status.OnlineUsers(SingleUser), Mode=OneWay}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
+            <TextBlock Text="{x:Bind Host.Current.Status.OnlineUsers(UserCount), Mode=OneWay}"
+                       Foreground="{ThemeResource SystemControlForegroundBaseMediumBrush}" />
         </StackPanel>
     </Grid>
 </Window>

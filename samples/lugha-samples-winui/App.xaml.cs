@@ -15,7 +15,7 @@ public sealed partial class App : Application
   public static LocaleRegistry<IAppLocale>? Registry { get; private set; }
 
   /// <summary>The reactive locale host for XAML bindings.</summary>
-  public static LocaleHost<IAppLocale>? Host { get; private set; }
+  public static WinUILocaleHost<IAppLocale>? Host { get; private set; }
 
   /// <summary>The main application window.</summary>
   public static Window? MainWindow { get; private set; }
@@ -32,9 +32,17 @@ public sealed partial class App : Application
   protected override void OnLaunched(LaunchActivatedEventArgs args)
   {
     EnGbLocale defaultLocale = new();
-    Registry = new LocaleRegistry<IAppLocale>([defaultLocale, new ArSaLocale(), new EsEsLocale(), new ZhHansLocale()]);
+
+    if (LocaleRegistry<IAppLocale>.Create(
+            defaultLocale, new ArSaLocale(), new EsEsLocale(), new ZhHansLocale())
+        is not Result<LocaleRegistry<IAppLocale>, DuplicateLanguageTag>.Ok(var registry))
+    {
+      return;
+    }
+
+    Registry = registry;
+    Host = LocaleHostFactory.Create(registry.Default, Microsoft.UI.Dispatching.DispatcherQueue.GetForCurrentThread());
     MainWindow = new MainWindow();
-    Host = new LocaleHost<IAppLocale>(Registry.Resolve("en-GB", defaultLocale), MainWindow.DispatcherQueue);
     MainWindow.Activate();
   }
 }

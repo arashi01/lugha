@@ -17,7 +17,7 @@ namespace Lugha.Analysers;
 /// <remarks>
 /// Flagged patterns: <c>Console.Write*</c>, <c>File.*</c>, <c>HttpClient.*</c>,
 /// <c>Debug.*</c>, <c>Trace.*</c>, <c>await</c> expressions, assignments to
-/// fields/properties outside the method, and <c>throw</c> of non-argument exceptions.
+/// fields/properties outside the method, and any <c>throw</c> expression or statement.
 /// </remarks>
 [DiagnosticAnalyzer(LanguageNames.CSharp)]
 public sealed class SideEffectAnalyser : DiagnosticAnalyzer
@@ -169,16 +169,15 @@ public sealed class SideEffectAnalyser : DiagnosticAnalyzer
         }
       }
 
-      // throw of non-argument exceptions.
-      if (node is ThrowExpressionSyntax throwExpr && !IsArgumentException(throwExpr.Expression))
+      // Any throw is a side effect.
+      if (node is ThrowExpressionSyntax throwExpr)
       {
         context.ReportDiagnostic(
             Diagnostic.Create(Rule, throwExpr.GetLocation(), memberName, "throw"));
       }
 
       if (node is ThrowStatementSyntax throwStatement &&
-          throwStatement.Expression is not null &&
-          !IsArgumentException(throwStatement.Expression))
+          throwStatement.Expression is not null)
       {
         context.ReportDiagnostic(
             Diagnostic.Create(Rule, throwStatement.GetLocation(), memberName, "throw"));
@@ -192,17 +191,4 @@ public sealed class SideEffectAnalyser : DiagnosticAnalyzer
     MemberAccessExpressionSyntax memberAccess => memberAccess.Name.Identifier.Text,
     _ => null,
   };
-
-  private static bool IsArgumentException(ExpressionSyntax? expression)
-  {
-    if (expression is not ObjectCreationExpressionSyntax creation)
-    {
-      return false;
-    }
-
-    string typeName = creation.Type.ToString();
-    return typeName.Contains("ArgumentException") ||
-           typeName.Contains("ArgumentNullException") ||
-           typeName.Contains("ArgumentOutOfRangeException");
-  }
 }

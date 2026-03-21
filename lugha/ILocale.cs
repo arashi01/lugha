@@ -27,39 +27,33 @@ public interface ILocale
 
   /// <summary>
   /// Resolves the CLDR cardinal plural category for a given count.
-  /// Pure function.
+  /// Total function. Negative values are clamped to zero.
   /// </summary>
-  /// <param name="count">Non-negative integer count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   public PluralCategory Cardinal(int count);
 
   /// <summary>
   /// Resolves the CLDR ordinal plural category for a given count.
-  /// Pure function.
+  /// Total function. Negative values are clamped to zero.
   /// </summary>
-  /// <param name="count">Non-negative integer count.</param>
+  /// <param name="count">Integer count. Negative values are clamped to zero.</param>
   public OrdinalCategory Ordinal(int count);
 }
 
 /// <summary>
 /// Locale bound to independent cardinal and ordinal rule sets.
 /// Resolution is provided automatically via default interface methods.
-/// Non-negative count is enforced at this boundary.
+/// Negative counts are clamped to zero at this boundary.
 /// </summary>
 public interface ILocale<TCardinal, TOrdinal> : ILocale
     where TCardinal : ICardinalRules<TCardinal>
     where TOrdinal : IOrdinalRules<TOrdinal>
 {
 #pragma warning disable CA1033 // Default interface method - explicit implementation is the intended pattern
-  PluralCategory ILocale.Cardinal(int count)
-  {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return TCardinal.Cardinal(count);
-  }
+  PluralCategory ILocale.Cardinal(int count) =>
+      TCardinal.Cardinal(Math.Max(0, count));
 
-  OrdinalCategory ILocale.Ordinal(int count)
-  {
-    ArgumentOutOfRangeException.ThrowIfNegative(count);
-    return TOrdinal.Ordinal(count);
-  }
+  OrdinalCategory ILocale.Ordinal(int count) =>
+      TOrdinal.Ordinal(Math.Max(0, count));
 #pragma warning restore CA1033
 }

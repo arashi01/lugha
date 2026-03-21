@@ -179,7 +179,7 @@ A single `IPluralRules<TSelf>` forced incorrect groupings. The split eliminates 
 - **Thread-safe.** All Lugha types are thread-safe. Locale instances may be shared freely across threads.
 - **Zero runtime dependencies.** All CLDR rules are hand-implemented as pure functions. The only dependency is the .NET 10 BCL.
 - **Framework-agnostic.** No framework coupling. WinUI, WPF, Blazor, console - any host works. For WinUI/WPF, `x:Bind` with `Mode=OneTime` evaluates text scope properties once at load; missing members fail the XAML codegen build.
-- **Non-negative count invariant.** All entry points (`Plural.*`, `Ordinal.*`, `ILocale.Cardinal`, `ILocale.Ordinal`) throw `ArgumentOutOfRangeException` for negative `count` values.
+- **Total functions.** Every function returns a valid result for all inputs. Negative `count` values are clamped to zero. Errors are values (`Result<T,E>`), never exceptions.
 
 ## Requirements
 

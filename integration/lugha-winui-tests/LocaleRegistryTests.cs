@@ -6,32 +6,66 @@ namespace Lugha.WinUI.Tests;
 public sealed class LocaleRegistryTests
 {
   [Fact]
-  public void Constructor_rejects_null()
+  public void Create_succeeds_with_single_locale()
   {
-    Action act = () => _ = new LocaleRegistry<ILocale>(null!);
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
+        LocaleRegistry<ILocale>.Create(new TestEnGbLocale());
 
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("locales");
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok ok =
+        result.Should().BeOfType<Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok>()
+            .Which;
+    ok.Value.Count.Should().Be(1);
+    ok.Value.Default.Culture.Name.Should().Be("en-GB");
+  }
+
+  [Fact]
+  public void Create_succeeds_with_multiple_locales()
+  {
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
+        LocaleRegistry<ILocale>.Create(
+            new TestEnGbLocale(), new TestArSaLocale(), new TestEsEsLocale());
+
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok ok =
+        result.Should().BeOfType<Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok>()
+            .Which;
+    ok.Value.Count.Should().Be(3);
+  }
+
+  [Fact]
+  public void Create_returns_err_for_duplicate_tag()
+  {
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
+        LocaleRegistry<ILocale>.Create(new TestEnGbLocale(), new TestEnGbLocale());
+
+    result.Should().BeOfType<Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Err>()
+        .Which.Error.Tag.Should().Be("en-GB");
   }
 
   [Fact]
   public void Languages_returns_registered_tags()
   {
-    LocaleRegistry<ILocale> registry = new([
-        new TestEnGbLocale(),
-            new TestArSaLocale(),
-            new TestEsEsLocale(),
-        ]);
+    LocaleRegistry<ILocale> registry =
+        CreateRegistry(new TestEnGbLocale(), new TestArSaLocale(), new TestEsEsLocale());
 
     registry.Languages.Should().BeEquivalentTo(["en-GB", "ar-SA", "es-ES"]);
   }
 
   [Fact]
+  public void Locales_returns_all_instances()
+  {
+    var enGb = new TestEnGbLocale();
+    var arSa = new TestArSaLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(enGb, arSa);
+
+    registry.Locales.Should().BeEquivalentTo(new ILocale[] { enGb, arSa });
+  }
+
+  [Fact]
   public void Resolve_returns_matching_locale()
   {
-    TestEnGbLocale enGb = new();
-    TestArSaLocale arSa = new();
-    LocaleRegistry<ILocale> registry = new([enGb, arSa]);
+    var enGb = new TestEnGbLocale();
+    var arSa = new TestArSaLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(enGb, arSa);
 
     registry.Resolve("en-GB").Should().BeSameAs(enGb);
     registry.Resolve("ar-SA").Should().BeSameAs(arSa);
@@ -40,42 +74,35 @@ public sealed class LocaleRegistryTests
   [Fact]
   public void Resolve_is_case_insensitive()
   {
-    TestEnGbLocale enGb = new();
-    LocaleRegistry<ILocale> registry = new([enGb]);
+    var enGb = new TestEnGbLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(enGb);
 
     registry.Resolve("EN-GB").Should().BeSameAs(enGb);
     registry.Resolve("en-gb").Should().BeSameAs(enGb);
   }
 
   [Fact]
-  public void Resolve_returns_null_for_unknown_tag()
+  public void Resolve_returns_default_for_unknown_tag()
   {
-    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
+    var enGb = new TestEnGbLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(enGb);
 
-    registry.Resolve("fr-FR").Should().BeNull();
+    registry.Resolve("fr-FR").Should().BeSameAs(enGb);
   }
 
   [Fact]
-  public void Empty_registry_has_no_languages()
+  public void TryResolve_returns_null_for_unknown_tag()
   {
-    LocaleRegistry<ILocale> registry = new([]);
+    LocaleRegistry<ILocale> registry = CreateRegistry(new TestEnGbLocale());
 
-    registry.Languages.Should().BeEmpty();
+    registry.TryResolve("fr-FR").Should().BeNull();
   }
 
   [Fact]
-  public void Empty_registry_resolve_returns_null()
+  public void Resolve_falls_back_to_parent_tag()
   {
-    LocaleRegistry<ILocale> registry = new([]);
-
-    registry.Resolve("en-GB").Should().BeNull();
-  }
-
-  [Fact]
-  public void Resolve_falls_back_to_parent_tag_when_exact_tag_unregistered()
-  {
-    TestEsLocale es = new();
-    LocaleRegistry<ILocale> registry = new([es]);
+    var es = new TestEsLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(es);
 
     registry.Resolve("es-419").Should().BeSameAs(es);
   }
@@ -83,80 +110,61 @@ public sealed class LocaleRegistryTests
   [Fact]
   public void Resolve_falls_back_through_multiple_subtags()
   {
-    TestArSaLocale arSa = new();
-    LocaleRegistry<ILocale> registry = new([arSa]);
+    var arSa = new TestArSaLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(arSa);
 
-    // ar-SA-u-ca-islamic -> ar-SA-u-ca -> ar-SA-u -> ar-SA -> match
     registry.Resolve("ar-SA-u-ca-islamic").Should().BeSameAs(arSa);
   }
 
   [Fact]
   public void Resolve_prefers_exact_match_over_parent_fallback()
   {
-    TestEsLocale es = new();
-    TestEsEsLocale esEs = new();
-    LocaleRegistry<ILocale> registry = new([es, esEs]);
+    var es = new TestEsLocale();
+    var esEs = new TestEsEsLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(es, esEs);
 
     registry.Resolve("es-ES").Should().BeSameAs(esEs);
     registry.Resolve("es-419").Should().BeSameAs(es);
   }
 
   [Fact]
-  public void Resolve_returns_null_when_no_ancestor_registered()
+  public void Contains_returns_true_for_registered_tag()
   {
-    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
+    LocaleRegistry<ILocale> registry = CreateRegistry(new TestEnGbLocale());
 
-    registry.Resolve("fr-FR").Should().BeNull();
+    registry.Contains("en-GB").Should().BeTrue();
   }
 
   [Fact]
-  public void Resolve_with_fallback_returns_matched_locale()
+  public void Contains_returns_false_for_unregistered_tag()
   {
-    TestEnGbLocale enGb = new();
-    TestArSaLocale arSa = new();
-    LocaleRegistry<ILocale> registry = new([enGb, arSa]);
+    LocaleRegistry<ILocale> registry = CreateRegistry(new TestEnGbLocale());
 
-    registry.Resolve("en-GB", arSa).Should().BeSameAs(enGb);
+    registry.Contains("fr-FR").Should().BeFalse();
   }
 
   [Fact]
-  public void Resolve_with_fallback_returns_fallback_on_miss()
+  public void Contains_matches_via_subtag_fallback()
   {
-    TestEnGbLocale enGb = new();
-    TestArSaLocale arSa = new();
-    LocaleRegistry<ILocale> registry = new([enGb]);
+    LocaleRegistry<ILocale> registry = CreateRegistry(new TestEsLocale());
 
-    registry.Resolve("fr-FR", arSa).Should().BeSameAs(arSa);
+    registry.Contains("es-419").Should().BeTrue();
   }
 
   [Fact]
-  public void Resolve_with_fallback_rejects_null_fallback()
+  public void Default_is_first_locale()
   {
-    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
-    Action act = () => _ = registry.Resolve("en-GB", null!);
+    var enGb = new TestEnGbLocale();
+    LocaleRegistry<ILocale> registry = CreateRegistry(enGb, new TestArSaLocale());
 
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("fallback");
+    registry.Default.Should().BeSameAs(enGb);
   }
 
-  [Fact]
-  public void Resolve_rejects_null_language()
+  private static LocaleRegistry<ILocale> CreateRegistry(
+      ILocale defaultLocale, params ILocale[] additional)
   {
-    LocaleRegistry<ILocale> registry = new([new TestEnGbLocale()]);
-    Action act = () => _ = registry.Resolve(null!);
-
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("language");
-  }
-
-  [Fact]
-  public void Resolve_with_fallback_rejects_null_language()
-  {
-    TestEnGbLocale fallback = new();
-    LocaleRegistry<ILocale> registry = new([fallback]);
-    Action act = () => _ = registry.Resolve(null!, fallback);
-
-    act.Should().Throw<ArgumentNullException>()
-        .WithParameterName("language");
+    Result<LocaleRegistry<ILocale>, DuplicateLanguageTag> result =
+        LocaleRegistry<ILocale>.Create(defaultLocale, additional);
+    return ((Result<LocaleRegistry<ILocale>, DuplicateLanguageTag>.Ok)result).Value;
   }
 }

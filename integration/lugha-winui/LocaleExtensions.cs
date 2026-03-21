@@ -6,24 +6,16 @@ using Microsoft.UI.Xaml;
 namespace Lugha.WinUI;
 
 /// <summary>
-/// Extension methods for <see cref="ILocale"/> in WinUI 3 contexts.
+/// WinUI-specific extension methods for <see cref="ILocale"/>.
 /// </summary>
 public static class LocaleExtensions
 {
   /// <summary>
-  /// Returns the <see cref="Microsoft.UI.Xaml.FlowDirection"/> for this locale's
-  /// writing system, derived from
-  /// <see cref="System.Globalization.TextInfo.IsRightToLeft"/>.
+  /// Returns the <see cref="Microsoft.UI.Xaml.FlowDirection"/> for this
+  /// locale's writing system.
   /// </summary>
-  /// <param name="locale">The locale to query.</param>
-  /// <exception cref="ArgumentNullException">
-  /// <paramref name="locale"/> is <see langword="null"/>.
-  /// </exception>
-  public static FlowDirection FlowDirection(this ILocale locale)
-  {
-    ArgumentNullException.ThrowIfNull(locale);
-    return locale.Culture.TextInfo.IsRightToLeft
-        ? Microsoft.UI.Xaml.FlowDirection.RightToLeft
-        : Microsoft.UI.Xaml.FlowDirection.LeftToRight;
-  }
+  public static FlowDirection FlowDirection(this ILocale locale) =>
+      locale.IsRightToLeft
+          ? Microsoft.UI.Xaml.FlowDirection.RightToLeft
+          : Microsoft.UI.Xaml.FlowDirection.LeftToRight;
 }

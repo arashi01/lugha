@@ -10,7 +10,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace Lugha.Analysers;
 
 /// <summary>
-/// <b>LGH006</b> - Info (opt-in): a <c>PluralForms</c> initialiser
+/// <b>LGH006</b> - Warning: a <c>PluralForms</c> initialiser
 /// for a locale requiring more than two CLDR categories only sets <c>Other</c> and <c>One</c>.
 /// </summary>
 /// <remarks>
@@ -32,8 +32,8 @@ public sealed class PluralCategoryCompletenessAnalyser : DiagnosticAnalyzer
       title: "PluralForms may need additional categories",
       messageFormat: "PluralForms for language '{0}' may need categories beyond Other and One",
       category: "Lugha.Design",
-      defaultSeverity: DiagnosticSeverity.Info,
-      isEnabledByDefault: false,
+      defaultSeverity: DiagnosticSeverity.Warning,
+      isEnabledByDefault: true,
       description: "A PluralForms initialiser for a locale requiring more than two CLDR categories only sets Other and One.");
 
   /// <inheritdoc />

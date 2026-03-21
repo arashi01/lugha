@@ -1,48 +1,42 @@
 // Copyright (c) 2026 Ali Rashid. Licensed under the Apache License, Version 2.0.
 // See LICENSE in the project root for licence information.
 
+using System.Diagnostics.CodeAnalysis;
 
 namespace Lugha;
 
 /// <summary>
 /// CLDR plural forms for a countable noun. Value type. No virtual dispatch.
-/// <see cref="Other"/> is the only required slot. All remaining categories
-/// fall back to <see cref="Other"/> when unset.
+/// <see cref="Other"/> is the only required slot. Unset categories
+/// resolve to <see cref="Other"/> — the public API is null-free.
+/// Equality compares resolved values.
 /// </summary>
-/// <remarks>
-/// <para>Uses C# 14 <c>field</c> keyword. Value equality compares resolved values
-/// (post-fallback), not nullable backing fields - two instances with identical
-/// resolved text are equal regardless of which slots were explicitly set.
-/// The auto-generated <c>ToString</c> calls property getters and therefore
-/// also prints resolved values.</para>
-/// <para>The custom <c>Equals</c>/<c>GetHashCode</c> overrides ensure
-/// resolved-value equality. Record structs generate equality over backing
-/// fields by default; overriding is necessary to compare the resolved
-/// (post-fallback) values rather than the nullable backing stores.</para>
-/// </remarks>
 public readonly record struct PluralForms
 {
   /// <summary>Required. General/default form.</summary>
   public required string Other { get; init; }
 
-  /// <summary>Zero-quantity. Falls back to <see cref="Other"/>.</summary>
+  /// <summary>Zero-quantity form. Resolves to <see cref="Other"/> when unset.</summary>
+  [field: MaybeNull]
   public string Zero { get => field ?? Other; init; }
 
-  /// <summary>Singular. Falls back to <see cref="Other"/>.</summary>
+  /// <summary>Singular form. Resolves to <see cref="Other"/> when unset.</summary>
+  [field: MaybeNull]
   public string One { get => field ?? Other; init; }
 
-  /// <summary>Dual. Falls back to <see cref="Other"/>.</summary>
+  /// <summary>Dual form. Resolves to <see cref="Other"/> when unset.</summary>
+  [field: MaybeNull]
   public string Two { get => field ?? Other; init; }
 
-  /// <summary>Paucal. Falls back to <see cref="Other"/>.</summary>
+  /// <summary>Paucal form. Resolves to <see cref="Other"/> when unset.</summary>
+  [field: MaybeNull]
   public string Few { get => field ?? Other; init; }
 
-  /// <summary>Large-quantity. Falls back to <see cref="Other"/>.</summary>
+  /// <summary>Large-quantity form. Resolves to <see cref="Other"/> when unset.</summary>
+  [field: MaybeNull]
   public string Many { get => field ?? Other; init; }
 
-  /// <summary>
-  /// Compares resolved (post-fallback) values rather than nullable backing fields.
-  /// </summary>
+  /// <summary>Resolved-value equality.</summary>
   public bool Equals(PluralForms other) =>
       Other == other.Other &&
       Zero == other.Zero &&
@@ -51,9 +45,7 @@ public readonly record struct PluralForms
       Few == other.Few &&
       Many == other.Many;
 
-  /// <summary>
-  /// Returns a hash code based on resolved (post-fallback) values.
-  /// </summary>
+  /// <summary>Resolved-value hash code.</summary>
   public override int GetHashCode() =>
       HashCode.Combine(Other, Zero, One, Two, Few, Many);
 }

@@ -105,6 +105,7 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
     sb.AppendLine("#nullable enable");
     sb.AppendLine();
     sb.AppendLine("using System;");
+    sb.AppendLine("using System.Collections.Generic;");
     sb.AppendLine();
     sb.AppendLine("/// <summary>");
     sb.AppendLine("/// Auto-generated locale manifest providing compile-time metadata about");
@@ -113,9 +114,8 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
     sb.AppendLine("public static partial class LocaleManifest");
     sb.AppendLine("{");
 
-    // Scopes property.
-    sb.AppendLine("    /// <summary>All ITextScope-derived interface names.</summary>");
-    sb.Append("    public static string[] Scopes => [");
+    // Scopes field + property.
+    sb.Append("    private static readonly string[] _scopes = [");
     for (int i = 0; i < scopes.Count; i++)
     {
       if (i > 0)
@@ -128,10 +128,12 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
 
     sb.AppendLine("];");
     sb.AppendLine();
+    sb.AppendLine("    /// <summary>All ITextScope-derived interface names.</summary>");
+    sb.AppendLine("    public static IReadOnlyList<string> Scopes => _scopes;");
+    sb.AppendLine();
 
-    // Locales property.
-    sb.AppendLine("    /// <summary>All concrete ILocale class names.</summary>");
-    sb.Append("    public static string[] Locales => [");
+    // Locales field + property.
+    sb.Append("    private static readonly string[] _locales = [");
     for (int i = 0; i < locales.Count; i++)
     {
       if (i > 0)
@@ -143,6 +145,9 @@ public sealed class LocaleManifestGenerator : IIncrementalGenerator
     }
 
     sb.AppendLine("];");
+    sb.AppendLine();
+    sb.AppendLine("    /// <summary>All concrete ILocale class names.</summary>");
+    sb.AppendLine("    public static IReadOnlyList<string> Locales => _locales;");
     sb.AppendLine();
 
     // MemberCount<TScope>() method.

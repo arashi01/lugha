@@ -48,9 +48,10 @@ public static class LanguageRules
 
   /// <summary>
   /// Resolves the CLDR cardinal and ordinal rule type names for a language tag.
+  /// Performs subtag fallback: <c>"en-GB"</c> resolves via <c>"en"</c>.
   /// </summary>
   /// <param name="languageTag">
-  /// IETF BCP 47 language tag (e.g. <c>"en"</c>, <c>"pt-PT"</c>).
+  /// IETF BCP 47 language tag (e.g. <c>"en-GB"</c>, <c>"pt-PT"</c>).
   /// Region subtags are significant only where the base language is ambiguous
   /// (e.g. <c>"pt"</c> vs <c>"pt-PT"</c>).
   /// </param>
@@ -58,32 +59,58 @@ public static class LanguageRules
   /// The <see cref="RulePair"/> for the language, or <see langword="null"/>
   /// if the language tag is not recognised.
   /// </returns>
-  public static RulePair? Resolve(string languageTag) => languageTag switch
+  public static RulePair? Resolve(string languageTag)
   {
-    "en" => new("OneOtherCardinal", "EnglishOrdinal"),
-    "de" => new("OneOtherCardinal", "OtherOnlyOrdinal"),
-    "nl" => new("OneOtherCardinal", "OtherOnlyOrdinal"),
-    "nb" => new("OneOtherCardinal", "OtherOnlyOrdinal"),
-    "da" => new("OneOtherCardinal", "OtherOnlyOrdinal"),
-    "sv" => new("OneOtherCardinal", "SwedishOrdinal"),
-    "fr" => new("FrenchCardinal", "OneOnlyOrdinal"),
-    "es" => new("LatinEuropeanCardinal", "SpanishOrdinal"),
-    "it" => new("LatinEuropeanCardinal", "ItalianOrdinal"),
-    "pt" => new("FrenchCardinal", "OtherOnlyOrdinal"),
-    "pt-PT" => new("LatinEuropeanCardinal", "OtherOnlyOrdinal"),
-    "ca" => new("LatinEuropeanCardinal", "OtherOnlyOrdinal"),
-    "ro" => new("RomanianCardinal", "OneOnlyOrdinal"),
-    "ru" => new("EastSlavicCardinal", "OtherOnlyOrdinal"),
-    "uk" => new("EastSlavicCardinal", "UkrainianOrdinal"),
-    "pl" => new("PolishCardinal", "OtherOnlyOrdinal"),
-    "cs" => new("CzechSlovakCardinal", "OtherOnlyOrdinal"),
-    "sk" => new("CzechSlovakCardinal", "OtherOnlyOrdinal"),
-    "ar" => new("ArabicCardinal", "OtherOnlyOrdinal"),
-    "he" => new("HebrewCardinal", "OtherOnlyOrdinal"),
-    "cy" => new("WelshCardinal", "WelshOrdinal"),
-    "zh" => new("OtherOnlyCardinal", "OtherOnlyOrdinal"),
-    "ja" => new("OtherOnlyCardinal", "OtherOnlyOrdinal"),
-    "ko" => new("OtherOnlyCardinal", "OtherOnlyOrdinal"),
+    RulePair? exact = ResolveExact(languageTag);
+    if (exact is not null)
+    {
+      return exact;
+    }
+
+    string tag = languageTag;
+    while (true)
+    {
+      int lastHyphen = tag.LastIndexOf('-');
+      if (lastHyphen <= 0)
+      {
+        return null;
+      }
+
+      tag = tag[..lastHyphen];
+      exact = ResolveExact(tag);
+      if (exact is not null)
+      {
+        return exact;
+      }
+    }
+  }
+
+  private static RulePair? ResolveExact(string languageTag) => languageTag switch
+  {
+    "en" => new RulePair("OneOtherCardinal", "EnglishOrdinal"),
+    "de" => new RulePair("OneOtherCardinal", "OtherOnlyOrdinal"),
+    "nl" => new RulePair("OneOtherCardinal", "OtherOnlyOrdinal"),
+    "nb" => new RulePair("OneOtherCardinal", "OtherOnlyOrdinal"),
+    "da" => new RulePair("OneOtherCardinal", "OtherOnlyOrdinal"),
+    "sv" => new RulePair("OneOtherCardinal", "SwedishOrdinal"),
+    "fr" => new RulePair("FrenchCardinal", "OneOnlyOrdinal"),
+    "es" => new RulePair("LatinEuropeanCardinal", "SpanishOrdinal"),
+    "it" => new RulePair("LatinEuropeanCardinal", "ItalianOrdinal"),
+    "pt" => new RulePair("FrenchCardinal", "OtherOnlyOrdinal"),
+    "pt-PT" => new RulePair("LatinEuropeanCardinal", "OtherOnlyOrdinal"),
+    "ca" => new RulePair("LatinEuropeanCardinal", "OtherOnlyOrdinal"),
+    "ro" => new RulePair("RomanianCardinal", "OneOnlyOrdinal"),
+    "ru" => new RulePair("EastSlavicCardinal", "OtherOnlyOrdinal"),
+    "uk" => new RulePair("EastSlavicCardinal", "UkrainianOrdinal"),
+    "pl" => new RulePair("PolishCardinal", "OtherOnlyOrdinal"),
+    "cs" => new RulePair("CzechSlovakCardinal", "OtherOnlyOrdinal"),
+    "sk" => new RulePair("CzechSlovakCardinal", "OtherOnlyOrdinal"),
+    "ar" => new RulePair("ArabicCardinal", "OtherOnlyOrdinal"),
+    "he" => new RulePair("HebrewCardinal", "OtherOnlyOrdinal"),
+    "cy" => new RulePair("WelshCardinal", "WelshOrdinal"),
+    "zh" => new RulePair("OtherOnlyCardinal", "OtherOnlyOrdinal"),
+    "ja" => new RulePair("OtherOnlyCardinal", "OtherOnlyOrdinal"),
+    "ko" => new RulePair("OtherOnlyCardinal", "OtherOnlyOrdinal"),
     _ => null,
   };
 }

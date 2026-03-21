@@ -7,13 +7,11 @@ using Microsoft.UI.Xaml;
 namespace Lugha.Samples.WinUI;
 
 /// <summary>
-/// Main application window demonstrating locale-aware bindings.
+/// Main application window demonstrating locale-aware bindings,
+/// pluralisation, and RTL layout.
 /// </summary>
 public sealed partial class MainWindow : Window
 {
-  /// <summary>
-  /// Initialises the main window.
-  /// </summary>
   public MainWindow()
   {
     InitializeComponent();
@@ -21,44 +19,38 @@ public sealed partial class MainWindow : Window
 
 #pragma warning disable CA1822 // x:Bind targets must be instance members
   /// <summary>The locale host for XAML bindings.</summary>
-  public LocaleHost<IAppLocale>? Host => App.Host;
+  public WinUILocaleHost<IAppLocale>? Host => App.Host;
 
-  /// <summary>Sample server name for parameterised text demonstration.</summary>
+  /// <summary>Sample server name for parameterised text.</summary>
   public string ServerName => "server-1";
+
+  /// <summary>Singular count for plural demonstration.</summary>
+  public int SingleUser => 1;
+
+  /// <summary>Plural count for plural demonstration.</summary>
+  public int UserCount => 42;
 #pragma warning restore CA1822
 
-  private void OnEnglishClick(object sender, RoutedEventArgs e) =>
-      SwitchLocale("en-GB");
+  private void OnLanguageSelected(object sender, RoutedEventArgs e)
+  {
+    if (sender is not FrameworkElement { Tag: string languageTag })
+    {
+      return;
+    }
 
-  private void OnArabicClick(object sender, RoutedEventArgs e) =>
-      SwitchLocale("ar-SA");
+    SwitchLocale(languageTag);
+  }
 
-  private void OnSpanishClick(object sender, RoutedEventArgs e) =>
-      SwitchLocale("es-ES");
-
-  private void OnMandarinClick(object sender, RoutedEventArgs e) =>
-      SwitchLocale("zh-Hans");
-
-  private void SwitchLocale(string languageTag)
+  private static void SwitchLocale(string languageTag)
   {
     if (App.Registry is not { } registry)
     {
       return;
     }
 
-    if (registry.Resolve(languageTag) is not { } locale)
-    {
-      return;
-    }
+    IAppLocale locale = registry.Resolve(languageTag);
 
-    if (App.Host is { } host)
-    {
-      host.SetLocale(locale);
-    }
-
-    if (Content is FrameworkElement root)
-    {
-      SystemLanguageSync.Apply(locale, root);
-    }
+    App.Host?.SetLocale(locale);
+    SystemLanguageSync.TryApply(locale);
   }
 }

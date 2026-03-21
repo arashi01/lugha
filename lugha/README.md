@@ -282,18 +282,17 @@ The package includes Roslyn analysers that enforce text scope correctness at com
 | LGH003 | Error | Text scope implementation returns `null`, `null!`, `default`, `default!`, `string.Empty`, or `""`. |
 | LGH004 | Warning | Parameterised text scope method does not use all parameters in its return expression. |
 | LGH005 | Info | Text scope interface has no implementations (opt-in). |
-| LGH006 | Info | `PluralForms` sets only Other + One for a language needing more categories (opt-in). |
+| LGH006 | Warning | `PluralForms` sets only Other + One for a language needing more categories. |
 | LGH007 | Info | Text scope member defined but unreferenced (opt-in). |
 | LGH008 | Warning | Text scope implementation body contains side-effecting calls (heuristic). |
 
 ### Enabling opt-in diagnostics
 
-LGH005, LGH006, and LGH007 are disabled by default. Enable them via `.editorconfig`:
+LGH005 and LGH007 are disabled by default. Enable them via `.editorconfig`:
 
 ```ini
 [*.cs]
 dotnet_diagnostic.LGH005.severity = suggestion
-dotnet_diagnostic.LGH006.severity = suggestion
 dotnet_diagnostic.LGH007.severity = suggestion
 ```
 
